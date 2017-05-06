@@ -51,10 +51,10 @@
 
 </section>
 
-<#if 0 != queryBase.currentPage>
+<#if 0 != queryBase.totalPage>
 
 <nav class="pagination">
-    <#if 1 != queryBase.totalPage>
+    <#if 1 !=  paginationPageNums ? first>
     <a href="${servePath}${path}/${paginationPreviousPageNum}" class="extend next"><<</a>
     <a class="page-number" href="${servePath}${path}/1">1</a> ...
     </#if>

@@ -41,19 +41,29 @@ public class TestController {
 //        view.addObject("miniPostfix", "");
 //        view.addObject("staticResourceVersion", "");
         view.addObject("servePath", Utils.getServerPath(request));
+
+
         //header.ftl
+
+        //搜索
+        view.addObject("searchLabel", "搜索");
+        view.addObject("serverHost", "localhost");
+
+        //页面
         view.addObject("dynamicLabel", "动态");
         view.addObject("allTagsLabel", "标签");
         view.addObject("archiveLabel", "存档");
-        view.addObject("searchLabel", "搜索");
-        view.addObject("serverHost", "localhost");
-        HashMap<String, Object> page = new HashMap<String, Object>();
-        page.put("pagePermalink", "http:127.0.0.1");
-        page.put("pageOpenTarget", "");
-        page.put("pageTitle", "test");
-        LinkedList<HashMap> pageNavigations = new LinkedList<HashMap>();
-        pageNavigations.add(page);
+
+        //添加页面
+//        HashMap<String, Object> page = new HashMap<String, Object>();
+//        page.put("pagePermalink", "http:127.0.0.1");
+//        page.put("pageOpenTarget", "");
+//        page.put("pageTitle", "test");
+//        LinkedList<HashMap> pageNavigations = new LinkedList<HashMap>();
+//        pageNavigations.add(page);
 //        view.addObject("pageNavigations", pageNavigations);
+
+
         QueryBase queryBase = new QueryBase();
         try{
              articleService.getByPage(queryBase);
@@ -67,22 +77,25 @@ public class TestController {
         view.addObject("postTimeLabel", "发表于");
         view.addObject("cmtLabel", "条评论");
         view.addObject("readLabel", "继续阅读");
-        view.addObject("paginationPageCount", 7);
-        int[] paginationPageNums = {1, 2, 3, 4, 5, 6, 7};
+
+        //分页
+        Long paginationPageCount = queryBase.getTotalPage();
+        Long paginationCurrentPageNum = queryBase.getCurrentPage();
+        LinkedList<Long> paginationPageNums = new LinkedList<Long>();
+        for(Long i = 0l, j = paginationCurrentPageNum; j <= paginationPageCount && i< 6; i++, j++){
+            paginationPageNums.add(j);
+        }
+        view.addObject("paginationPageCount", paginationPageCount);
         view.addObject("paginationPageNums", paginationPageNums);
         view.addObject("path", "page");
-        view.addObject("paginationPreviousPageNum", 1);
-        view.addObject("paginationCurrentPageNum", 2);
-        view.addObject("paginationNextPageNum", 3);
+        view.addObject("paginationPreviousPageNum", paginationCurrentPageNum > 1 ? paginationCurrentPageNum - 1 : paginationCurrentPageNum);
+        view.addObject("paginationCurrentPageNum", paginationCurrentPageNum);
+        view.addObject("paginationNextPageNum", paginationCurrentPageNum <  paginationPageCount ? paginationCurrentPageNum + 1: paginationCurrentPageNum);
 
-//        Article article = new Article("test", "test", false, false, new Date(), 3, 2, "测试");
-
-        LinkedList<Article> articles = new LinkedList<Article>();
-//        articles.add(article);
 
         view.addObject("topArticleLabel", "test");
         view.addObject("updatedLabel", "test");
-        view.addObject("articles", articles);
+
         view.addObject("viewsLabel", "热度");
 
         //side.ftl
@@ -99,6 +112,7 @@ public class TestController {
         view.addObject("loginURL", "http:127.0.0.1");
         view.addObject("loginLabel", "登录");
         view.addObject("registerLabel", "registerLabel");
+
         Admin admin = new Admin();
         admin.setUserAvatar("/images/favicon.png");
         view.addObject("adminUser", admin);
