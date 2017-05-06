@@ -1,19 +1,20 @@
 <section class="posts-expand">
 
 
-    <#list articles as article>
+    <#if queryBase.getResults() ??>
+    <#list queryBase.getResults() as article>
     <article class="post-item">
         <header>
             <h1>
-                <a class="post-title-link"  rel="bookmark" href="${servePath}${article.articlePermalink}">
-                    ${article.articleTitle}
+                <a class="post-title-link"  rel="bookmark" href="${servePath}/article/show?articleId=${article.article.articleId}">
+                    ${article.article.articleTitle}
                 </a>
-                <#if article.articlePutTop>
+                <#if article.article.articlePutTop ??>
                 <sup>
                     ${topArticleLabel}
                 </sup>
                 </#if>
-                <#if article.hasUpdated>
+                <#if article.hasUpdated ??>
                 <sup>
                     ${updatedLabel}
                 </sup>
@@ -24,35 +25,36 @@
                 <span>
                     ${postTimeLabel}
                     <time>
-                        ${article.articleCreateDate?string("yyyy-MM-dd")}
+                        ${article.article.articleCreated?string("yyyy-MM-dd")}
                     </time>
                 </span>
                 <span>
                     &nbsp; | &nbsp;
-                    <a href="${servePath}${article.articlePermalink}#comments">
-                        ${article.articleCommentCount} ${cmtLabel}</a>
+                    <a href="${servePath}/article/show?articleId={article.article.articleId}#comments">
+                        ${article.article.commentCount !} ${cmtLabel}</a>
                 </span>
-                &nbsp; | &nbsp;${viewsLabel} ${article.articleViewCount}°C
+                &nbsp; | &nbsp;${viewsLabel} ${article.article.articleView}°C
             </div>
         </header>
         <div class="article-body">
-            ${article.articleAbstract}
+            ${article.article.articleSummary}
         </div>
         <div class="post-more-link">
-            <a href="${servePath}${article.articlePermalink}#more" rel="contents">
+            <a href="${servePath}/article/show?articleId=${article.article.articleId}#more" rel="contents">
                 ${readLabel} &raquo;
             </a>
         </div>
     </article>
     </#list>
+    </#if>
 
 
 </section>
 
-<#if 0 != paginationPageCount>
+<#if 0 != queryBase.currentPage>
 
 <nav class="pagination">
-    <#if 1 != paginationPageNums?first>
+    <#if 1 != queryBase.totalPage>
     <a href="${servePath}${path}/${paginationPreviousPageNum}" class="extend next"><<</a>
     <a class="page-number" href="${servePath}${path}/1">1</a> ...
     </#if>

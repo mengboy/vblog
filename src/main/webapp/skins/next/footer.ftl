@@ -2,7 +2,7 @@
     <div class="wrapper fn-clear">
         <a href="${servePath}">${blogTitle}</a>  •
         ${onlineVisitor1Label}${onlineVisitorCnt} <br/>
-        &copy; ${year}
+        &copy; ${year!}
         ${footerContent}
         Powered by <a href="http://b3log.org" target="_blank">B3log 开源</a> •
         <a href="https://hacpai.com/tag/solo" target="_blank">Solo</a> ${version}
@@ -12,15 +12,15 @@
 </footer>
 <div class="back-to-top" onclick="Util.goTop()"></div>
 
-<script type="text/javascript" src="${staticServePath}/js/lib/jquery/jquery.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="${staticServePath}/js/common${miniPostfix}.js?${staticResourceVersion}" charset="utf-8"></script>
-<script type="text/javascript" src="${staticServePath}/skins/${skinDirName}/static/js/${skinDirName}${miniPostfix}.js?${staticResourceVersion}" charset="utf-8"></script>
+<script type="text/javascript" src="${servePath}/js/lib/jquery/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="${servePath}/js/common${miniPostfix!}.js?${staticResourceVersion!}" charset="utf-8"></script>
+<script type="text/javascript" src="${servePath}/skins/${skinDirName}/static/js/${skinDirName}${miniPostfix!}.js?${staticResourceVersion!}" charset="utf-8"></script>
 <script type="text/javascript">
     var latkeConfig = {
         "servePath": "${servePath}",
-        "staticServePath": "${staticServePath}",
+        "staticServePath": "${staticServePath!}",
         "isLoggedIn": "${isLoggedIn?string}",
-        "userName": "${userName}"
+        "userName": "${userName!}"
     };
 
     <#--var Label = {-->

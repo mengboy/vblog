@@ -140,4 +140,8 @@ public class IArticleService implements ArticleService{
         }
     }
 
+    public Article selectByPrimaryKey(Integer articleId) {
+        return articleMapper.selectByPrimaryKey(articleId);
+    }
+
 }

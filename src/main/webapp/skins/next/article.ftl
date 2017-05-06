@@ -1,11 +1,11 @@
 <#include "macro-head.ftl">
-<#include "macro-comments.ftl">
+<#--<#include "macro-comments.ftl">-->
 <!DOCTYPE html>
 <html>
     <head>
         <@head title="${article.articleTitle} - ${blogTitle}">
-        <meta name="keywords" content="${article.articleTags}" />
-        <meta name="description" content="${article.articleAbstract?html}" />
+        <meta name="keywords" content="${article.articleTags!}" />
+        <meta name="description" content="${article.articleSummary?html}" />
         </@head>
         <#if previousArticlePermalink??>
             <link rel="prev" title="${previousArticleTitle}" href="${servePath}${previousArticlePermalink}">
@@ -22,12 +22,12 @@
                     <header class="post-header">
                         <h1 class="post-title">
                             ${article.articleTitle}
-                            <#if article.articlePutTop>
+                            <#if article.articlePutTop ??>
                             <sup>
                                 ${topArticleLabel}
                             </sup>
                             </#if>
-                            <#if article.hasUpdated>
+                            <#if article.hasUpdated ??>
                             <sup>
                                 ${updatedLabel}
                             </sup>
@@ -37,33 +37,35 @@
                             <span class="post-time">
                                 ${postTimeLabel}
                                 <time>
-                                    ${article.articleCreateDate?string("yyyy-MM-dd")}
+                                    ${article.articleCreated?string("yyyy-MM-dd")}
                                 </time>
                             </span>
                             <span class="post-comments-count">
                                 &nbsp; | &nbsp;
-                                <a href="${servePath}${article.articlePermalink}#comments">
-                                    ${article.articleCommentCount} ${cmtLabel}</a>
+                                <a href="${servePath}${article.articlePermalink!}#comments">
+                                    ${article.commentCount !} ${cmtLabel}</a>
                             </span>
                             &nbsp; | &nbsp; ${viewsLabel}
-                            ${article.articleViewCount}°C
+                            ${article.articleView}°C
                         </div>
                     </header>
 
                     <div class="post-body article-body">
-                        ${article.articleContent}
-                        <#if "" != article.articleSign.signHTML?trim>
-                        <div>
-                            ${article.articleSign.signHTML}
-                        </div>
-                        </#if>
+                        ${article.articleText}
+                        <#--<#if "" != article.articleSign.signHTML?trim>-->
+                        <#--<div>-->
+                            <#--${article.articleSign.signHTML}-->
+                        <#--</div>-->
+                        <#--</#if>-->
                     </div>
                     <footer>
                         <div class="post-tags">
+                            <#if article.articleTags ??>
                             <#list article.articleTags?split(",") as articleTag>
                             <a rel="tag" href="${servePath}/tags/${articleTag?url('UTF-8')}">
                                 ${articleTag}</a>
                             </#list>
+                            </#if>
                         </div>
                         <div class="post-nav fn-clear">
                             <#if previousArticlePermalink??>
@@ -84,16 +86,16 @@
                     </footer>
                 </article>
             </div>
-            <@comments commentList=articleComments article=article></@comments>
+            <#--<@comments commentList=articleComments article=article></@comments>-->
             <div id="externalRelevantArticles"></div>
             <#include "side.ftl">
         </main>
         <#include "footer.ftl">
-        <@comment_script oId=article.oId>
-        page.tips.externalRelevantArticlesDisplayCount = "${externalRelevantArticlesDisplayCount}";
-        <#if 0 != externalRelevantArticlesDisplayCount>
-        page.loadExternalRelevantArticles("<#list article.articleTags?split(",") as articleTag>${articleTag}<#if articleTag_has_next>,</#if></#list>");
-        </#if>
-        </@comment_script>    
+        <#--<@comment_script oId=article.oId>-->
+        <#--page.tips.externalRelevantArticlesDisplayCount = "${externalRelevantArticlesDisplayCount!}";-->
+        <#--<#if 0 != externalRelevantArticlesDisplayCount>-->
+        <#--page.loadExternalRelevantArticles("<#list article.articleTags?split(",") as articleTag>${articleTag}<#if articleTag_has_next>,</#if></#list>");-->
+        <#--</#if>-->
+        <#--</@comment_script>    -->
     </body>
 </html>

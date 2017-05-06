@@ -99,7 +99,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<#if queryBase??><#list queryBase.getResults() as bean>
+						<#if queryBase??>
+							<#list queryBase.getResults() as bean>
 						<tr class="jp-onmouse">
 							<td><input name="dataItem" type="checkbox" value="${bean.article.articleId}"></td>
 							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.article.articleId}&c=edit&p=${p!}">

@@ -38,4 +38,6 @@ public interface ArticleService {
 
     public int upArticleTrash(int articleId);
 
+    public Article selectByPrimaryKey(Integer articleId);
+
 }
