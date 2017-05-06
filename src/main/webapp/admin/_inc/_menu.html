@@ -1,0 +1,39 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+	<!-- sidebar: style can be found in sidebar.less -->
+	<section class="sidebar">
+		<!-- sidebar menu: : style can be found in sidebar.less -->
+		<ul class="sidebar-menu">
+			<li class="jpress_block"></li>
+			<li class="treeview" id="dashboard">
+				<a href="${CPATH}/admin"> 
+					<i class="fa fa-dashboard"></i> 
+					<span>JPress面板</span>
+				</a>
+			</li>
+			<li class="jpress_block"></li>
+
+			<#list menulists as menulist>
+				<li class="treeview">
+					<a href="#" id="${menulist.menuLiId}">
+						<i class="fa fa-file-text-o"></i>
+						<span>${menulist.menuTitle}</span>
+						<i class="fa fa-angle-left pull-right"></i>
+					</a>
+					<ul class="treeview-menu" style="display: none">
+						<#if menulist.getMenus()?exists>
+							<#list menulist.getMenus() as list>
+								 <li id="${list.getMenuLiId()}">
+									 <a href="${list.getMenuUrl()}" >${list.getMenuTitle()}</a>
+								 </li>
+							</#list>
+						</#if>
+					</ul>
+				</li>
+			</#list>
+
+			<li class="jpress_block"></li>
+		</ul>
+	</section>
+	<!-- /.sidebar -->
+</aside>

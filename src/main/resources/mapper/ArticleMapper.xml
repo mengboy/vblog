@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vector.blog.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.vector.blog.model.Article" >
+    <id column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
+    <result column="article_summary" property="articleSummary" jdbcType="VARCHAR" />
+    <result column="article_markdown" property="articleMarkdown" jdbcType="INTEGER" />
+    <result column="article_module" property="articleModule" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="article_author" property="articleAuthor" jdbcType="VARCHAR" />
+    <result column="article_view" property="articleView" jdbcType="INTEGER" />
+    <result column="article_created" property="articleCreated" jdbcType="DATE" />
+    <result column="article_modified" property="articleModified" jdbcType="DATE" />
+    <result column="article_keywords" property="articleKeywords" jdbcType="VARCHAR" />
+    <result column="article_desc" property="articleDesc" jdbcType="VARCHAR" />
+    <result column="article_status" property="articleStatus" jdbcType="VARCHAR" />
+    <result column="article_flag" property="articleFlag" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.vector.blog.model.Article" extends="BaseResultMap" >
+    <result column="article_text" property="articleText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    article_id, article_title, article_summary, article_markdown, article_module, user_id, 
+    article_author, article_view, article_created, article_modified, article_keywords, 
+    article_desc, article_status
+  </sql>
+  <sql id="Blob_Column_List" >
+    article_text
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_article
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_article
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vector.blog.model.Article" >
+    insert into tb_article (article_id, article_title, article_summary, 
+      article_markdown, article_module, user_id, 
+      article_author, article_view, article_created, 
+      article_modified, article_keywords, article_desc, 
+      article_status, article_text)
+    values (#{articleId,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR}, #{articleSummary,jdbcType=VARCHAR}, 
+      #{articleMarkdown,jdbcType=INTEGER}, #{articleModule,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{articleAuthor,jdbcType=VARCHAR}, #{articleView,jdbcType=INTEGER}, #{articleCreated,jdbcType=DATE}, 
+      #{articleModified,jdbcType=DATE}, #{articleKeywords,jdbcType=VARCHAR}, #{articleDesc,jdbcType=VARCHAR}, 
+      #{articleStatus,jdbcType=VARCHAR}, #{articleText,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vector.blog.model.Article" >
+    insert into tb_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="articleTitle != null" >
+        article_title,
+      </if>
+      <if test="articleSummary != null" >
+        article_summary,
+      </if>
+      <if test="articleMarkdown != null" >
+        article_markdown,
+      </if>
+      <if test="articleModule != null" >
+        article_module,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="articleAuthor != null" >
+        article_author,
+      </if>
+      <if test="articleView != null" >
+        article_view,
+      </if>
+      <if test="articleCreated != null" >
+        article_created,
+      </if>
+      <if test="articleModified != null" >
+        article_modified,
+      </if>
+      <if test="articleKeywords != null" >
+        article_keywords,
+      </if>
+      <if test="articleDesc != null" >
+        article_desc,
+      </if>
+      <if test="articleStatus != null" >
+        article_status,
+      </if>
+      <if test="articleText != null" >
+        article_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="articleTitle != null" >
+        #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="articleSummary != null" >
+        #{articleSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="articleMarkdown != null" >
+        #{articleMarkdown,jdbcType=INTEGER},
+      </if>
+      <if test="articleModule != null" >
+        #{articleModule,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="articleAuthor != null" >
+        #{articleAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="articleView != null" >
+        #{articleView,jdbcType=INTEGER},
+      </if>
+      <if test="articleCreated != null" >
+        #{articleCreated,jdbcType=DATE},
+      </if>
+      <if test="articleModified != null" >
+        #{articleModified,jdbcType=DATE},
+      </if>
+      <if test="articleKeywords != null" >
+        #{articleKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="articleDesc != null" >
+        #{articleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="articleStatus != null" >
+        #{articleStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="articleText != null" >
+        #{articleText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vector.blog.model.Article" >
+    update tb_article
+    <set >
+      <if test="articleTitle != null" >
+        article_title = #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="articleSummary != null" >
+        article_summary = #{articleSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="articleMarkdown != null" >
+        article_markdown = #{articleMarkdown,jdbcType=INTEGER},
+      </if>
+      <if test="articleModule != null" >
+        article_module = #{articleModule,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="articleAuthor != null" >
+        article_author = #{articleAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="articleView != null" >
+        article_view = #{articleView,jdbcType=INTEGER},
+      </if>
+      <if test="articleCreated != null" >
+        article_created = #{articleCreated,jdbcType=DATE},
+      </if>
+      <if test="articleModified != null" >
+        article_modified = #{articleModified,jdbcType=DATE},
+      </if>
+      <if test="articleKeywords != null" >
+        article_keywords = #{articleKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="articleDesc != null" >
+        article_desc = #{articleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="articleStatus != null" >
+        article_status = #{articleStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="articleText != null" >
+        article_text = #{articleText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.vector.blog.model.Article" >
+    update tb_article
+    set article_title = #{articleTitle,jdbcType=VARCHAR},
+      article_summary = #{articleSummary,jdbcType=VARCHAR},
+      article_markdown = #{articleMarkdown,jdbcType=INTEGER},
+      article_module = #{articleModule,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      article_author = #{articleAuthor,jdbcType=VARCHAR},
+      article_view = #{articleView,jdbcType=INTEGER},
+      article_created = #{articleCreated,jdbcType=DATE},
+      article_modified = #{articleModified,jdbcType=DATE},
+      article_keywords = #{articleKeywords,jdbcType=VARCHAR},
+      article_desc = #{articleDesc,jdbcType=VARCHAR},
+      article_status = #{articleStatus,jdbcType=VARCHAR},
+      article_text = #{articleText,jdbcType=LONGVARCHAR}
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vector.blog.model.Article" >
+    update tb_article
+    set article_title = #{articleTitle,jdbcType=VARCHAR},
+      article_summary = #{articleSummary,jdbcType=VARCHAR},
+      article_markdown = #{articleMarkdown,jdbcType=INTEGER},
+      article_module = #{articleModule,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      article_author = #{articleAuthor,jdbcType=VARCHAR},
+      article_view = #{articleView,jdbcType=INTEGER},
+      article_created = #{articleCreated,jdbcType=DATE},
+      article_modified = #{articleModified,jdbcType=DATE},
+      article_keywords = #{articleKeywords,jdbcType=VARCHAR},
+      article_desc = #{articleDesc,jdbcType=VARCHAR},
+      article_status = #{articleStatus,jdbcType=VARCHAR}
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectLastArticleId" resultType="java.lang.Integer">
+    SELECT LAST_INSERT_ID()
+  </select>
+
+  <select id="selectArticleByPage" parameterType="com.vector.blog.common.QueryBase" resultMap="BaseResultMap">
+    SELECT * FROM tb_article
+    WHERE 1= 1 limit #{firstRow},#{pageSize}
+  </select>
+
+
+  <select id="getPageConut" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM tb_article
+  </select>
+
+
+  <select id="getDraftCount" resultType="java.lang.Integer">
+    SELECT COUNT(article_status) FROM tb_article
+    WHERE article_status = 'draft'
+  </select>
+
+  <select id="getNormalCount" resultType="java.lang.Integer">
+    SELECT COUNT(article_status) FROM tb_article
+    WHERE article_status = 'normal'
+  </select>
+
+  <select id="getDelCount" resultType="java.lang.Integer">
+    SELECT COUNT(article_status) FROM tb_article
+    WHERE article_status = 'trash'
+  </select>
+
+  <update id="upArticleDraft" parameterType="java.lang.Integer">
+    UPDATE tb_aticle
+    SET  article_status = 'draft' WHERE article_id = #{articleId, jdbcType=INTEGER}
+  </update>
+
+  <update id="upArticleTrash" parameterType="java.lang.Integer">
+    UPDATE tb_aticle
+    SET  article_status = 'trash' WHERE article_id = #{articleId, jdbcType=INTEGER}
+  </update>
+</mapper>

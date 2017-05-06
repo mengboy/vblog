@@ -1,0 +1,32 @@
+<@category content=content! taxonomyType=taxonomyType! /> 
+<#macro category content taxonomyType>
+<div class="box box-solid">
+	<div class="box-header with-border">
+		<h3 class="box-title">${taxonomyType.title}</h3>
+
+		<div class="box-tools">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse">
+				<i class="fa fa-minus"></i>
+			</button>
+		</div>
+	</div>
+	<div class="box-body jp-content-select-box">
+
+		<#--${TAXONOMY_BOX(taxonomyType,content)}-->
+			<#if taxonomies ??>
+				<ul>
+					<#list taxonomies as taxonomy>
+						<li>
+							<label>
+								<input name="_category" value="${taxonomy.taxId}" type="checkbox">
+								${taxonomy.taxTitle}
+							</label>
+						</li>
+					</#list>
+				</ul>
+			</#if>
+
+	</div>
+</div>
+<!-- /.box -->
+</#macro>

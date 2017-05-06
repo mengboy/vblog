@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vector.blog.mapper.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.vector.blog.model.Menu" >
+    <id column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="menu_title" property="menuTitle" jdbcType="VARCHAR" />
+    <result column="menu_li_id" property="menuLiId" jdbcType="VARCHAR" />
+    <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="menu_level" property="menuLevel" jdbcType="INTEGER" />
+    <result column="menu_parent" property="menuParent" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    menu_id, menu_title, menu_li_id, menu_url, menu_level, menu_parent
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vector.blog.model.Menu" >
+    insert into tb_menu (menu_id, menu_title, menu_li_id, 
+      menu_url, menu_level, menu_parent
+      )
+    values (#{menuId,jdbcType=INTEGER}, #{menuTitle,jdbcType=VARCHAR}, #{menuLiId,jdbcType=VARCHAR}, 
+      #{menuUrl,jdbcType=VARCHAR}, #{menuLevel,jdbcType=INTEGER}, #{menuParent,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vector.blog.model.Menu" >
+    insert into tb_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="menuTitle != null" >
+        menu_title,
+      </if>
+      <if test="menuLiId != null" >
+        menu_li_id,
+      </if>
+      <if test="menuUrl != null" >
+        menu_url,
+      </if>
+      <if test="menuLevel != null" >
+        menu_level,
+      </if>
+      <if test="menuParent != null" >
+        menu_parent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuTitle != null" >
+        #{menuTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLiId != null" >
+        #{menuLiId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="menuParent != null" >
+        #{menuParent,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vector.blog.model.Menu" >
+    update tb_menu
+    <set >
+      <if test="menuTitle != null" >
+        menu_title = #{menuTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLiId != null" >
+        menu_li_id = #{menuLiId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        menu_level = #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="menuParent != null" >
+        menu_parent = #{menuParent,jdbcType=INTEGER},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vector.blog.model.Menu" >
+    update tb_menu
+    set menu_title = #{menuTitle,jdbcType=VARCHAR},
+      menu_li_id = #{menuLiId,jdbcType=VARCHAR},
+      menu_url = #{menuUrl,jdbcType=VARCHAR},
+      menu_level = #{menuLevel,jdbcType=INTEGER},
+      menu_parent = #{menuParent,jdbcType=INTEGER}
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+
+  <select id="getTopLevelMenu" resultMap="BaseResultMap">
+    SELECT * FROM tb_menu
+    WHERE menu_level = 1
+  </select>
+
+  <select id="getSecondLevelMenu" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * FROM tb_menu
+    WHERE menu_parent = #{parentId, jdbcType=INTEGER} ORDER BY menu_order
+  </select>
+</mapper>

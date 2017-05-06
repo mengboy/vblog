@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vector.blog.mapper.TaxonomyMapper" >
+  <resultMap id="BaseResultMap" type="com.vector.blog.model.Taxonomy" >
+    <id column="tax_id" property="taxId" jdbcType="INTEGER" />
+    <result column="tax_title" property="taxTitle" jdbcType="VARCHAR" />
+    <result column="tax_text" property="taxText" jdbcType="VARCHAR" />
+    <result column="tax_slug" property="taxSlug" jdbcType="VARCHAR" />
+    <result column="tax_type" property="taxType" jdbcType="VARCHAR" />
+    <result column="tax_content_module" property="taxContentModule" jdbcType="VARCHAR" />
+    <result column="tax_content_count" property="taxContentCount" jdbcType="INTEGER" />
+    <result column="tax_parent_id" property="taxParentId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tax_id, tax_title, tax_text, tax_slug, tax_type, tax_content_module, tax_content_count, 
+    tax_parent_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_taxonomy
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_taxonomy
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vector.blog.model.Taxonomy" >
+    insert into tb_taxonomy (tax_id, tax_title, tax_text, 
+      tax_slug, tax_type, tax_content_module, 
+      tax_content_count, tax_parent_id)
+    values (#{taxId,jdbcType=INTEGER}, #{taxTitle,jdbcType=VARCHAR}, #{taxText,jdbcType=VARCHAR}, 
+      #{taxSlug,jdbcType=VARCHAR}, #{taxType,jdbcType=VARCHAR}, #{taxContentModule,jdbcType=VARCHAR}, 
+      #{taxContentCount,jdbcType=INTEGER}, #{taxParentId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vector.blog.model.Taxonomy" >
+    insert into tb_taxonomy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taxId != null" >
+        tax_id,
+      </if>
+      <if test="taxTitle != null" >
+        tax_title,
+      </if>
+      <if test="taxText != null" >
+        tax_text,
+      </if>
+      <if test="taxSlug != null" >
+        tax_slug,
+      </if>
+      <if test="taxType != null" >
+        tax_type,
+      </if>
+      <if test="taxContentModule != null" >
+        tax_content_module,
+      </if>
+      <if test="taxContentCount != null" >
+        tax_content_count,
+      </if>
+      <if test="taxParentId != null" >
+        tax_parent_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taxId != null" >
+        #{taxId,jdbcType=INTEGER},
+      </if>
+      <if test="taxTitle != null" >
+        #{taxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taxText != null" >
+        #{taxText,jdbcType=VARCHAR},
+      </if>
+      <if test="taxSlug != null" >
+        #{taxSlug,jdbcType=VARCHAR},
+      </if>
+      <if test="taxType != null" >
+        #{taxType,jdbcType=VARCHAR},
+      </if>
+      <if test="taxContentModule != null" >
+        #{taxContentModule,jdbcType=VARCHAR},
+      </if>
+      <if test="taxContentCount != null" >
+        #{taxContentCount,jdbcType=INTEGER},
+      </if>
+      <if test="taxParentId != null" >
+        #{taxParentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vector.blog.model.Taxonomy" >
+    update tb_taxonomy
+    <set >
+      <if test="taxTitle != null" >
+        tax_title = #{taxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taxText != null" >
+        tax_text = #{taxText,jdbcType=VARCHAR},
+      </if>
+      <if test="taxSlug != null" >
+        tax_slug = #{taxSlug,jdbcType=VARCHAR},
+      </if>
+      <if test="taxType != null" >
+        tax_type = #{taxType,jdbcType=VARCHAR},
+      </if>
+      <if test="taxContentModule != null" >
+        tax_content_module = #{taxContentModule,jdbcType=VARCHAR},
+      </if>
+      <if test="taxContentCount != null" >
+        tax_content_count = #{taxContentCount,jdbcType=INTEGER},
+      </if>
+      <if test="taxParentId != null" >
+        tax_parent_id = #{taxParentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vector.blog.model.Taxonomy" >
+    update tb_taxonomy
+    set tax_title = #{taxTitle,jdbcType=VARCHAR},
+      tax_text = #{taxText,jdbcType=VARCHAR},
+      tax_slug = #{taxSlug,jdbcType=VARCHAR},
+      tax_type = #{taxType,jdbcType=VARCHAR},
+      tax_content_module = #{taxContentModule,jdbcType=VARCHAR},
+      tax_content_count = #{taxContentCount,jdbcType=INTEGER},
+      tax_parent_id = #{taxParentId,jdbcType=INTEGER}
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </update>
+
+<select id="getAllTag" resultMap="BaseResultMap">
+  SELECT * FROM tb_taxonomy
+  WHERE tax_type = 'tag'
+</select>
+
+<select id="getAllCategory" resultMap="BaseResultMap">
+  SELECT * FROM tb_taxonomy
+  WHERE tax_type = 'category'
+</select>
+
+<select id="selectTagExitByTitle" parameterType="java.lang.String" resultType="java.lang.Integer">
+  SELECT COUNT (*) FROM tb_taxonomy
+  WHERE tax_title = #{atag, jdbcType=VARCHAR} AND tax_type = 'tag'
+</select>
+
+  <select id="selectCategoryExitByTitle" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT COUNT (*) FROM tb_taxonomy
+    WHERE tax_title = #{acategory, jdbcType=VARCHAR} AND tax_type = 'category'
+  </select>
+
+  <select id="selectTagIdByTitle" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT tax_id FROM tb_taxonomy
+    WHERE tax_title = #{tagTitle, jdbcType=VARCHAR} AND tax_type = 'tag'
+  </select>
+
+<select id="selectLastTaxId" resultType="java.lang.Integer">
+  SELECT LAST_INSERT_ID()
+</select>
+
+
+  <select id="getTagsByArticleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * FROM tb_taxonomy
+    WHERE tax_id in (select tax_id from tb_content_tax WHERE article_id = #{articleId, jdbcType=INTEGER})
+    AND tax_type = 'tag'
+  </select>
+
+  <select id="getCategoriesByArticleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * FROM tb_taxonomy
+    WHERE tax_id in (select tax_id from tb_content_tax WHERE article_id = #{articleId, jdbcType=INTEGER})
+    AND tax_type = 'category'
+  </select>
+
+  <update id="upContentCount" parameterType="java.lang.Integer">
+    UPDATE tb_taxonomy SET tax_content_count = tax_content_count + 1
+    WHERE tax_id = #{taxId, jdbcType=INTEGER}
+  </update>
+
+</mapper>
