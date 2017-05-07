@@ -1,11 +1,11 @@
 package com.vector.blog;
 
 import com.vector.blog.common.QueryBase;
+import com.vector.blog.model.*;
 import com.vector.blog.model.admin.Admin;
-import com.vector.blog.model.Article;
-import com.vector.blog.model.Link;
-import com.vector.blog.model.Statistic;
 import com.vector.blog.service.ArticleService;
+import com.vector.blog.service.CommentService;
+import com.vector.blog.service.TaxonomyService;
 import com.vector.blog.utils.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by vector on 2017/4/16.
@@ -28,6 +29,12 @@ public class TestController {
 
     @Resource
     ArticleService articleService;
+
+    @Resource
+    CommentService commentService;
+
+    @Resource
+    TaxonomyService taxonomyService;
 
     @RequestMapping(value = "/test")
     public ModelAndView testView(HttpServletRequest request, HttpServletResponse response){
@@ -138,12 +145,9 @@ public class TestController {
         ModelAndView view = new ModelAndView("article");
         //index.ftl
         view.addObject("blogTitle", "vblog");
+
         //macro-head.ftl
-//        view.addObject("year", "2017");
-//        view.addObject("staticServePath", "");
         view.addObject("skinDirName", "next");
-//        view.addObject("miniPostfix", "");
-//        view.addObject("staticResourceVersion", "");
         view.addObject("servePath", Utils.getServerPath(request));
         //header.ftl
         view.addObject("dynamicLabel", "动态");
@@ -151,15 +155,22 @@ public class TestController {
         view.addObject("archiveLabel", "存档");
         view.addObject("searchLabel", "搜索");
         view.addObject("serverHost", "localhost");
-        HashMap<String, Object> page = new HashMap<String, Object>();
-        page.put("pagePermalink", "http:127.0.0.1");
-        page.put("pageOpenTarget", "");
-        page.put("pageTitle", "test");
-        LinkedList<HashMap> pageNavigations = new LinkedList<HashMap>();
-        pageNavigations.add(page);
+
 
         Article article = articleService.selectByPrimaryKey(Integer.valueOf(articleId));
+        List<Taxonomy> taxonomies = taxonomyService.getTagsByArticleId(Integer.valueOf(articleId));
+        article.setArticleTags(taxonomies);
         view.addObject("article", article);
+
+        //comment
+        List<Comment> comments = commentService.getCommentByArticleId(Integer.valueOf(articleId));
+        for(Comment comment : comments){
+            if(comment.getParentId() > 0){
+                comment.setParentComment(commentService.getCommentByParentId(comment.getParentId()));
+            }
+        }
+
+
         //article-list.ftl
         view.addObject("postTimeLabel", "发表于");
         view.addObject("cmtLabel", "条评论");

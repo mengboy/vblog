@@ -48,4 +48,13 @@ public class ITaxonomyService implements TaxonomyService {
             return Status.ERROR;
         }
     }
+
+    public List<Taxonomy> getTagsByArticleId(int articleId) {
+        try{
+            List<Taxonomy> taxonomies = taxonomyMapper.getTagsByArticleId(articleId);
+            return taxonomies;
+        }catch (Exception e){
+            return null;
+        }
+    }
 }

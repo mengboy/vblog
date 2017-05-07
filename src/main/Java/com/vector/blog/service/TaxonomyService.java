@@ -9,11 +9,18 @@ import java.util.List;
  */
 public interface TaxonomyService {
     public int addTax(Taxonomy taxonomy);
+
     public List<Taxonomy> getAllTag();
+
     public List<Taxonomy> getAllCategory();
+
     public int delById(int taxId);
+
     public int selectTaxId();
+
     public int selectTagIdByTitle(String tagTitle);
 
     public int upContentCount(int taxId);
+
+    public List<Taxonomy> getTagsByArticleId(int articleId);
 }

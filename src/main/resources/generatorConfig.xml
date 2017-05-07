@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 
-    <classPathEntry location="/Users/vector/IdeaProjects/jpress/vblog/src/main/webapp/WEB-INF/lib/mysql-connector-java-5.1.22.jar"/>
+    <classPathEntry location="/Users/vector/IdeaProjects/vblog/src/main/webapp/WEB-INF/lib/mysql-connector-java-5.1.22.jar"/>
             <!--location="/Users/vector/IdeaProjects/site/ssm/lib/mybatis-generator/mysql-connector-java-5.1.22.jar"/>-->
     <context id="DB2Tables"  targetRuntime="MyBatis3">
         <commentGenerator>
@@ -31,7 +31,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="tb_content_tax" domainObjectName="ContentTax" enableCountByExample="false" enableUpdateByExample="false"
+        <table tableName="tb_comment" domainObjectName="Comment" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
     </context>
 </generatorConfiguration>

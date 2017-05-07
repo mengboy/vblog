@@ -1,15 +1,16 @@
 CREATE TABLE tb_comment(
-comment_id INT(20),
+comment_id INT(20) PRIMARY KEY auto_increment,
 article_id INT(20),
-parent_id INT(20),
+parent_id INT(20) DATETIME NOT NULL DEFAULT 0,
 user_id INT(20),
 comment_ip VARCHAR(25),
 comment_author VARCHAR(30),
 comment_text text,
-comment_created DATE,
+comment_created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 comment_email VARCHAR(30),
 comment_status VARCHAR(20),
-CONSTRAINT `article_id_comfk` FOREIGN KEY (`article_id`) REFERENCES `tb_article` (`article_id`)
+CONSTRAINT `article_id_comfk` FOREIGN KEY (`article_id`) REFERENCES `tb_article` (`article_id`),
+CONSTRAINT `user_id_comfk` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`user_id`)
 )
 
 CREATE TABLE tb_menu(

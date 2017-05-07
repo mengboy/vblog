@@ -68,7 +68,7 @@ public class IArticleService implements ArticleService{
                 map = new HashMap<String, Object>();
                 List<Taxonomy> tags = taxonomyMapper.getTagsByArticleId(article.getArticleId());
                 List<Taxonomy> categories = taxonomyMapper.getCategoriesByArticleId(article.getArticleId());
-                article.setTags(tags);
+                article.setArticleTags(tags);
                 article.setCategories(categories);
                 map.put("article", article);
                 mapLists.add(map);

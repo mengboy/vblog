@@ -38,15 +38,9 @@ public class Article {
 
     private List<Taxonomy> categories;
 
-    private List<Taxonomy> tags;
+    private List<Taxonomy> articleTags;
 
-    public List<Taxonomy> getTags() {
-        return tags;
-    }
 
-    public void setTags(List<Taxonomy> tags) {
-        this.tags = tags;
-    }
 
     public List<Taxonomy> getCategories() {
         return categories;
@@ -183,5 +177,13 @@ public class Article {
 
     public void setArticleText(String articleText) {
         this.articleText = articleText == null ? null : articleText.trim();
+    }
+
+    public List<Taxonomy> getArticleTags() {
+        return articleTags;
+    }
+
+    public void setArticleTags(List<Taxonomy> articleTags) {
+        this.articleTags = articleTags;
     }
 }

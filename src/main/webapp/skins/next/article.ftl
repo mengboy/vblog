@@ -4,7 +4,7 @@
 <html>
     <head>
         <@head title="${article.articleTitle} - ${blogTitle}">
-        <meta name="keywords" content="${article.articleTags!}" />
+        <#--<meta name="keywords" content="${article.articleTags!}" />-->
         <meta name="description" content="${article.articleSummary?html}" />
         </@head>
         <#if previousArticlePermalink??>
@@ -61,9 +61,9 @@
                     <footer>
                         <div class="post-tags">
                             <#if article.articleTags ??>
-                            <#list article.articleTags?split(",") as articleTag>
-                            <a rel="tag" href="${servePath}/tags/${articleTag?url('UTF-8')}">
-                                ${articleTag}</a>
+                            <#list article.articleTags as articleTag>
+                            <a rel="tag" href="${servePath}/tags/?tagId=${articleTag.taxId}">
+                                ${articleTag.taxTitle}</a>
                             </#list>
                             </#if>
                         </div>
