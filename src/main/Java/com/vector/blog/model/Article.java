@@ -40,6 +40,7 @@ public class Article {
 
     private List<Taxonomy> articleTags;
 
+    private String articleCommentEnable;
 
 
     public List<Taxonomy> getCategories() {
@@ -185,5 +186,13 @@ public class Article {
 
     public void setArticleTags(List<Taxonomy> articleTags) {
         this.articleTags = articleTags;
+    }
+
+    public String getArticleCommentEnable() {
+        return articleCommentEnable;
+    }
+
+    public void setArticleCommentEnable(String articleCommentEnable) {
+        this.articleCommentEnable = articleCommentEnable;
     }
 }

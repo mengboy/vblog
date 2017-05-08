@@ -1,54 +1,54 @@
 <#macro comments commentList article>
 <ul class="comments" id="comments">
     <#list commentList as comment>
-    <li id="${comment.oId}" class="fn-clear">
-        <img class="avatar-48" title="${comment.commentName}" src="${comment.commentThumbnailURL}">
+    <li id="${comment.commentId}" class="fn-clear">
+        <img class="avatar-48" title="${comment.commentAuthor}" src="${comment.commentThumbnailURL!}">
         <div class="comment-body">
             <div class="fn-clear comment-meta">
                 <span class="fn-left">
-                    <#if "http://" == comment.commentURL>
-                    <a>${comment.commentName}</a>
+                    <#if "http://" == comment.commentURL!>
+                    <a>${comment.commentAuthor}</a>
                     <#else>
-                    <a href="${comment.commentURL}" target="_blank">${comment.commentName}</a>
+                    <a href="${comment.commentURL!}" target="_blank">${comment.commentAuthor}</a>
                     </#if>
-                    <#if comment.isReply>
+                    <#if comment.parentComment ??>
                     @
-                    <a href="${servePath}${article.permalink}#${comment.commentOriginalCommentId}"
-                       onmouseover="page.showComment(this, '${comment.commentOriginalCommentId}', 23);"
-                       onmouseout="page.hideComment('${comment.commentOriginalCommentId}')"
-                       >${comment.commentOriginalCommentName}</a>
+                    <a href="${servePath}/article/show?articleId=${article.articleId}#${comment.parentComment.commentId}"
+                       onmouseover="page.showComment(this, '${comment.parentComment.commentId}', 23);"
+                       onmouseout="page.hideComment('${comment.parentComment.commentId}')"
+                       >${comment.parentComment.commentAuthor}</a>
                     </#if>
-                    <time>${comment.commentDate?string("yyyy-MM-dd HH:mm")}</time> 
+                    <time>${comment.commentCreated?string("yyyy-MM-dd HH:mm")}</time>
                 </span>
-                <#if article.commentable>
-                <a class="fn-right" href="javascript:replyTo('${comment.oId}')">${replyLabel}</a>
+                <#if article.articleCommentEnable == "open">
+                <a class="fn-right" href="javascript:replyTo('${comment.commentId}')">${replyLabel!}</a>
                 </#if>
             </div>
             <div class="comment-content post-body article-body">
-                ${comment.commentContent}
+                ${comment.commentText}
             </div>
         </div>
     </li>
     </#list>
 </ul>
-<#if article.commentable>
+<#if article.articleCommentEnable == "open">
 <div class="comment-body fn-wrap">
     <table id="commentForm" class="form">
         <tbody>
-            <#if !isLoggedIn>
+            <#if  Session.isLogin ??>
             <tr>
                 <td>
-                    <input placeholder="${commentNameLabel}" type="text" class="normalInput" id="commentName"/>
+                    <input placeholder="${commentNameLabel!}" type="text" class="normalInput" id="commentName"/>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input placeholder="${commentEmailLabel}" type="email" class="normalInput" id="commentEmail"/>
+                    <input placeholder="${commentEmailLabel!}" type="email" class="normalInput" id="commentEmail"/>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input placeholder="${commentURLLabel}" type="url" id="commentURL"/>
+                    <input placeholder="${commentURLLabel!}" type="url" id="commentURL"/>
                 </td>
             </tr>
             </#if>
@@ -76,7 +76,7 @@
                     <textarea rows="10" cols="96" id="comment"></textarea>
                 </td>
             </tr>
-            <#if !isLoggedIn>
+            <#if Session.isLogin ??>
             <tr>
                 <td>
                     <input style="width:50%" placeholder="${captchaLabel}" type="text" class="normalInput" id="commentValidate"/>
@@ -87,7 +87,7 @@
             <tr>
                 <td colspan="2" align="right">
                     <span class="error-msg" id="commentErrorTip"></span>
-                    <button id="submitCommentButton" onclick="page.submitComment();">${submmitCommentLabel}</button>
+                    <button id="submitCommentButton" onclick="page.submitComment();">${submmitCommentLabel!}</button>
                 </td>
             </tr>
         </tbody>
@@ -124,8 +124,6 @@
                                         + 'onmouseover="page.showComment(this, \'' + page.currentCommentId + '\', 23);"'
                                         + 'onmouseout="page.hideComment(\'' + page.currentCommentId + '\')">' + commentOriginalCommentName + '</a>';
                             }
-
-
 
                             commentHTML += '<time>' + result.commentDate
                                     + '</time></span>';

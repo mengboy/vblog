@@ -162,13 +162,15 @@ public class TestController {
         article.setArticleTags(taxonomies);
         view.addObject("article", article);
 
-        //comment
+        //comment.ftl
         List<Comment> comments = commentService.getCommentByArticleId(Integer.valueOf(articleId));
         for(Comment comment : comments){
             if(comment.getParentId() > 0){
                 comment.setParentComment(commentService.getCommentByParentId(comment.getParentId()));
             }
         }
+        view.addObject("commentList", comments);
+
 
 
         //article-list.ftl
@@ -218,6 +220,8 @@ public class TestController {
         LinkedList<Link> links = new LinkedList<Link>();
         links.add(link);
         view.addObject("links", links);
+
+
         //footer.ftl
         view.addObject("onlineVisitor1Label", "在线人数");
         view.addObject("onlineVisitorCnt", 5);

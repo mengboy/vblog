@@ -60,7 +60,8 @@ public class ArticleController {
     @ResponseBody
     public Object adminSaveArctile(@RequestParam(value = "content.module", required = false) String contentModule, @RequestParam("content.status") String contentStatus,
                                    @RequestParam("content.title") String title, @RequestParam("content.text") String text, @RequestParam(value = "content.flag", required = false) String flag,
-                                   @RequestParam(value = "_category", required = false) String category, @RequestParam(value = "_tag", required = false) String tag){
+                                   @RequestParam(value = "_category", required = false) String category, @RequestParam(value = "_tag", required = false) String tag,
+                                   @RequestParam(value = "content.comment_status", required = false) String articleCommentEnable){
 
         int markdownEnable = 1;
 
@@ -69,6 +70,10 @@ public class ArticleController {
         article.setArticleModule(contentModule);
         article.setArticleTitle(title);
         article.setArticleStatus(contentStatus);
+
+        if(articleCommentEnable != null && articleCommentEnable.length() > 0){
+            article.setArticleCommentEnable(articleCommentEnable);
+        }
 
         String[] tags = null;
         if(tag != null && tag.trim().length() != 0){

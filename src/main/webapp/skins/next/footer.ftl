@@ -3,7 +3,7 @@
         <a href="${servePath}">${blogTitle}</a>  •
         ${onlineVisitor1Label}${onlineVisitorCnt} <br/>
         &copy; ${year!}
-        ${footerContent}
+        ${footerContent!}
         Powered by <a href="http://b3log.org" target="_blank">B3log 开源</a> •
         <a href="https://hacpai.com/tag/solo" target="_blank">Solo</a> ${version}
         

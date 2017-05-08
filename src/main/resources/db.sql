@@ -63,6 +63,7 @@ article_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 article_keywords VARCHAR(25),
 article_desc VARCHAR(25),
 article_status VARCHAR (20),
+article_comment_enable VARCHAR(10) NOT NULL DEFAULT 'open',
 CONSTRAINT `user_id_ibfk` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`user_id`)
 )
 

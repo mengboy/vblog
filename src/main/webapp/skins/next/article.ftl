@@ -1,5 +1,5 @@
 <#include "macro-head.ftl">
-<#--<#include "macro-comments.ftl">-->
+<#include "macro-comments.ftl">
 <!DOCTYPE html>
 <html>
     <head>
@@ -86,7 +86,7 @@
                     </footer>
                 </article>
             </div>
-            <#--<@comments commentList=articleComments article=article></@comments>-->
+            <@comments commentList=articleComments article=article></@comments>
             <div id="externalRelevantArticles"></div>
             <#include "side.ftl">
         </main>
