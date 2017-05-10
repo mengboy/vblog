@@ -91,11 +91,16 @@
             <#include "side.ftl">
         </main>
         <#include "footer.ftl">
-        <#--<@comment_script oId=article.oId>-->
+        <@comment_script oId=article.articleId>
         <#--page.tips.externalRelevantArticlesDisplayCount = "${externalRelevantArticlesDisplayCount!}";-->
         <#--<#if 0 != externalRelevantArticlesDisplayCount>-->
-        <#--page.loadExternalRelevantArticles("<#list article.articleTags?split(",") as articleTag>${articleTag}<#if articleTag_has_next>,</#if></#list>");-->
+        <#--page.loadExternalRelevantArticles("-->
+            <#--<#list article.articleTags?split(",") as articleTag>-->
+            <#--${articleTag}-->
+                <#--<#if articleTag_has_next>,-->
+                <#--</#if>-->
+            <#--</#list>");-->
         <#--</#if>-->
-        <#--</@comment_script>    -->
+        </@comment_script>
     </body>
 </html>

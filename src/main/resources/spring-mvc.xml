@@ -25,6 +25,7 @@
     <mvc:resources mapping="/images/**" location="/images/"/>
     <mvc:resources mapping="/static/**" location="/static/"/>
     <mvc:resources mapping="/skins/next/static/**" location="/skins/next/static/"/>
+    <mvc:resources mapping="/plugins/fancybox/js/**" location="/plugins/fancybox/js/"/>
     <!--<mvc:resources mapping="/skins/next/static/css/**" location="/skins/next/static/css/"/>-->
     <!--<mvc:resources mapping="/skins/next/static/js/**" location="/skins/next/static/js/"/>-->
     <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
@@ -93,6 +94,7 @@
             <list>
                 <value>/skins/next/</value>
                 <value>/admin/</value>
+                <value>/plugins/fancybox/</value>
             </list>
         </property>
     </bean>

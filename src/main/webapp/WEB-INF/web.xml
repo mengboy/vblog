@@ -61,7 +61,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Kaptcha</servlet-name>
-    <url-pattern>/kaptcha.jpg</url-pattern>
+    <url-pattern>/kaptcha.do</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

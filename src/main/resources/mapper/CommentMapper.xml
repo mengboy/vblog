@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vector.blog.mapper.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.vector.blog.model.Comment" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="comment_ip" property="commentIp" jdbcType="VARCHAR" />
+    <result column="comment_author" property="commentAuthor" jdbcType="VARCHAR" />
+    <result column="comment_created" property="commentCreated" jdbcType="TIMESTAMP" />
+    <result column="comment_email" property="commentEmail" jdbcType="VARCHAR" />
+    <result column="comment_status" property="commentStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.vector.blog.model.Comment" extends="BaseResultMap" >
+    <result column="comment_text" property="commentText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    comment_id, article_id, parent_id, user_id, comment_ip, comment_author, comment_created, 
+    comment_email, comment_status
+  </sql>
+  <sql id="Blob_Column_List" >
+    comment_text
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.vector.blog.model.Comment" >
+    insert into tb_comment (comment_id, article_id, parent_id, 
+      user_id, comment_ip, comment_author, 
+      comment_created, comment_email, comment_status, 
+      comment_text)
+    values (#{commentId,jdbcType=INTEGER}, #{articleId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{commentIp,jdbcType=VARCHAR}, #{commentAuthor,jdbcType=VARCHAR}, 
+      #{commentCreated,jdbcType=TIMESTAMP}, #{commentEmail,jdbcType=VARCHAR}, #{commentStatus,jdbcType=VARCHAR}, 
+      #{commentText,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vector.blog.model.Comment" >
+    insert into tb_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="commentIp != null" >
+        comment_ip,
+      </if>
+      <if test="commentAuthor != null" >
+        comment_author,
+      </if>
+      <if test="commentCreated != null" >
+        comment_created,
+      </if>
+      <if test="commentEmail != null" >
+        comment_email,
+      </if>
+      <if test="commentStatus != null" >
+        comment_status,
+      </if>
+      <if test="commentText != null" >
+        comment_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="commentIp != null" >
+        #{commentIp,jdbcType=VARCHAR},
+      </if>
+      <if test="commentAuthor != null" >
+        #{commentAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCreated != null" >
+        #{commentCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentEmail != null" >
+        #{commentEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="commentStatus != null" >
+        #{commentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="commentText != null" >
+        #{commentText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vector.blog.model.Comment" >
+    update tb_comment
+    <set >
+      <if test="articleId != null" >
+        article_id = #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="commentIp != null" >
+        comment_ip = #{commentIp,jdbcType=VARCHAR},
+      </if>
+      <if test="commentAuthor != null" >
+        comment_author = #{commentAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCreated != null" >
+        comment_created = #{commentCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentEmail != null" >
+        comment_email = #{commentEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="commentStatus != null" >
+        comment_status = #{commentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="commentText != null" >
+        comment_text = #{commentText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.vector.blog.model.Comment" >
+    update tb_comment
+    set article_id = #{articleId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      comment_ip = #{commentIp,jdbcType=VARCHAR},
+      comment_author = #{commentAuthor,jdbcType=VARCHAR},
+      comment_created = #{commentCreated,jdbcType=TIMESTAMP},
+      comment_email = #{commentEmail,jdbcType=VARCHAR},
+      comment_status = #{commentStatus,jdbcType=VARCHAR},
+      comment_text = #{commentText,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vector.blog.model.Comment" >
+    update tb_comment
+    set article_id = #{articleId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      comment_ip = #{commentIp,jdbcType=VARCHAR},
+      comment_author = #{commentAuthor,jdbcType=VARCHAR},
+      comment_created = #{commentCreated,jdbcType=TIMESTAMP},
+      comment_email = #{commentEmail,jdbcType=VARCHAR},
+      comment_status = #{commentStatus,jdbcType=VARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="getCommentsByArticleId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM tb_comment
+    WHERE article_id = #{articleId, jdbcType=INTEGER} ORDER by article_id DESC
+  </select>
+
+  <select id="getCommentParentId" parameterType="java.lang.Integer" resultType="com.vector.blog.model.Comment">
+    select * from WHERE parent_id = #{parentId,jdbcType=INTEGER};
+  </select>
+
+</mapper>

@@ -74,7 +74,7 @@ public class TestController {
         QueryBase queryBase = new QueryBase();
         try{
              articleService.getByPage(queryBase);
-             System.out.println(queryBase.getResults().size());
+//             System.out.println(queryBase.getResults().size());
              view.addObject("queryBase", queryBase);
         }catch (Exception e){
             return null;
@@ -132,6 +132,25 @@ public class TestController {
         links.add(link);
         view.addObject("links", links);
         //footer.ftl
+        view.addObject("em00Label", "微笑");
+        view.addObject("em01Label", "大笑");
+        view.addObject("em02Label", "高兴");
+        view.addObject("em03Label", "悲伤");
+        view.addObject("em04Label", "哭泣");
+        view.addObject("em05Label", "无语");
+        view.addObject("em06Label", "烦躁");
+        view.addObject("em07Label", "生气");
+        view.addObject("em08Label", "我瞅");
+        view.addObject("em09Label", "惊讶");
+        view.addObject("em10Label", "酷");
+        view.addObject("em11Label", "顽皮");
+        view.addObject("em12Label", "爱心");
+        view.addObject("em13Label", "心碎");
+        view.addObject("em14Label", "魔鬼");
+
+
+
+
         view.addObject("onlineVisitor1Label", "在线人数");
         view.addObject("onlineVisitorCnt", 5);
         view.addObject("footerContent", "footerContent");
@@ -157,6 +176,10 @@ public class TestController {
         view.addObject("serverHost", "localhost");
 
 
+        //article.ftl
+        view.addObject("postTimeLabel", "发表于");
+        view.addObject("cmtLabel", "条评论");
+        view.addObject("readLabel", "继续阅读");
         Article article = articleService.selectByPrimaryKey(Integer.valueOf(articleId));
         List<Taxonomy> taxonomies = taxonomyService.getTagsByArticleId(Integer.valueOf(articleId));
         article.setArticleTags(taxonomies);
@@ -165,25 +188,42 @@ public class TestController {
         //comment.ftl
         List<Comment> comments = commentService.getCommentByArticleId(Integer.valueOf(articleId));
         for(Comment comment : comments){
-            if(comment.getParentId() > 0){
+            if(comment.getParentId() != null && comment.getParentId() > 0){
                 comment.setParentComment(commentService.getCommentByParentId(comment.getParentId()));
             }
         }
-        view.addObject("commentList", comments);
+        view.addObject("articleComments", comments);
+        view.addObject("commentNameLabel", "姓名");
+        view.addObject("commentEmailLabel", "邮箱");
+        view.addObject("commentURLLabel", "URL");
+        view.addObject("em00Label", "微笑");
+        view.addObject("em01Label", "大笑");
+        view.addObject("em02Label", "高兴");
+        view.addObject("em03Label", "悲伤");
+        view.addObject("em04Label", "哭泣");
+        view.addObject("em05Label", "无语");
+        view.addObject("em06Label", "烦躁");
+        view.addObject("em07Label", "生气");
+        view.addObject("em08Label", "我瞅");
+        view.addObject("em09Label", "惊讶");
+        view.addObject("em10Label", "酷");
+        view.addObject("em11Label", "顽皮");
+        view.addObject("em12Label", "爱心");
+        view.addObject("em13Label", "心碎");
+        view.addObject("em14Label", "魔鬼");
+        view.addObject("captchaLabel", "验证码");
+        view.addObject("submmitCommentLabel", "提交评论");
+        view.addObject("nameTooLongLabel", "姓名只能为 2 到 20 个字符");
+        view.addObject("mailCannotEmptyLabel", "邮箱不能为空");
+        view.addObject("mailInvalidLabel", "邮箱格式不正确");
+        view.addObject("commentContentCannotEmptyLabel", "评论内容只能为2到500个字符");
+        view.addObject("captchaCannotEmptyLabel", "验证码不能为空");
+        view.addObject("loadingLabel", "载入中....");
+        view.addObject("blogHost", Utils.getServerPath(request));
+        view.addObject("replyLabel", "回复");
+//        view.addObject("plugins", "'../../plugins/fancybox/plugin.ftl' ");
 
 
-
-        //article-list.ftl
-        view.addObject("postTimeLabel", "发表于");
-        view.addObject("cmtLabel", "条评论");
-        view.addObject("readLabel", "继续阅读");
-        view.addObject("paginationPageCount", 7);
-        int[] paginationPageNums = {1, 2, 3, 4, 5, 6, 7};
-        view.addObject("paginationPageNums", paginationPageNums);
-        view.addObject("path", "page");
-        view.addObject("paginationPreviousPageNum", 1);
-        view.addObject("paginationCurrentPageNum", 2);
-        view.addObject("paginationNextPageNum", 3);
 
 //        Article article = new Article("test", "test", false, false, new Date(), 3, 2, "测试");
 
@@ -223,6 +263,7 @@ public class TestController {
 
 
         //footer.ftl
+        view.addObject("plugins", "true");
         view.addObject("onlineVisitor1Label", "在线人数");
         view.addObject("onlineVisitorCnt", 5);
         view.addObject("footerContent", "footerContent");

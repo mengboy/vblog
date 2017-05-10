@@ -103,7 +103,7 @@ var Util = {
         for (var j = 1; j < commentSplited.length; j++) {
             var key = commentSplited[j].substr(0, 2);
             str += "<img src='" + latkeConfig.staticServePath + "/skins/" +
-                    Label.skinDirName + "/images/emotions/em" + key + ".png' alt='" +
+                    Label.skinDirName + "/static/images/emotions/em" + key + ".png' alt='" +
                     Label["em" + key + "Label"] + "' title='" +
                     Label["em" + key + "Label"] + "'/>" + commentSplited[j].substr(3);
         }

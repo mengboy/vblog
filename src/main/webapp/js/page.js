@@ -539,89 +539,124 @@ $.extend(Page.prototype, {
      * @param {String} commentId 回复评论时的评论 id
      * @param {String} state 区分回复文章还是回复评论的标识
      */
-    submitComment: function (commentId, state) {
-        if (!state) {
-            state = '';
-        }
-        var that = this,
-                tips = this.tips,
-                type = "article";
-        if (tips.externalRelevantArticlesDisplayCount === undefined) {
-            type = "page";
-        }
-
-        if (this.validateComment(state)) {
-            $("#submitCommentButton" + state).attr("disabled", "disabled");
-            $("#commentErrorTip" + state).show().html(this.tips.loadingLabel);
-            var requestJSONObject = {
-                "oId": tips.oId,
-                "commentContent": $("#comment" + state).val().replace(/(^\s*)|(\s*$)/g, "")
-            };
-
-            if (!Util.isLoggedIn()) {
-                requestJSONObject = {
-                    "oId": tips.oId,
-                    "commentContent": $("#comment" + state).val().replace(/(^\s*)|(\s*$)/g, ""),
-                    "commentEmail": $("#commentEmail" + state).val(),
-                    "commentURL": Util.proessURL($("#commentURL" + state).val().replace(/(^\s*)|(\s*$)/g, "")),
-                    "commentName": $("#commentName" + state).val().replace(/(^\s*)|(\s*$)/g, ""),
-                    "captcha": $("#commentValidate" + state).val()
-                };
-                Cookie.createCookie("commentName", requestJSONObject.commentName, 365);
-                Cookie.createCookie("commentEmail", requestJSONObject.commentEmail, 365);
-                Cookie.createCookie("commentURL", $("#commentURL" + state).val().replace(/(^\s*)|(\s*$)/g, ""), 365);
-            }
-
-            if (state === "Reply") {
-                requestJSONObject.commentOriginalCommentId = commentId;
-            }
-
+    // submitComment: function (commentId, state) {
+    //     if (!state) {
+    //         state = '';
+    //     }
+    //     var that = this,
+    //             tips = this.tips,
+    //             type = "article";
+    //     if (tips.externalRelevantArticlesDisplayCount === undefined) {
+    //         type = "page";
+    //     }
+    //
+    //     if (this.validateComment(state)) {
+    //         $("#submitCommentButton" + state).attr("disabled", "disabled");
+    //         $("#commentErrorTip" + state).show().html(this.tips.loadingLabel);
+    //         var requestJSONObject = {
+    //             "oId": tips.oId,
+    //             "commentContent": $("#comment" + state).val().replace(/(^\s*)|(\s*$)/g, "")
+    //         };
+    //
+    //         if (!Util.isLoggedIn()) {
+    //             requestJSONObject = {
+    //                 "oId": tips.oId,
+    //                 "commentContent": $("#comment" + state).val().replace(/(^\s*)|(\s*$)/g, ""),
+    //                 "commentEmail": $("#commentEmail" + state).val(),
+    //                 "commentURL": Util.proessURL($("#commentURL" + state).val().replace(/(^\s*)|(\s*$)/g, "")),
+    //                 "commentName": $("#commentName" + state).val().replace(/(^\s*)|(\s*$)/g, ""),
+    //                 "captcha": $("#commentValidate" + state).val()
+    //             };
+    //             Cookie.createCookie("commentName", requestJSONObject.commentName, 365);
+    //             Cookie.createCookie("commentEmail", requestJSONObject.commentEmail, 365);
+    //             Cookie.createCookie("commentURL", $("#commentURL" + state).val().replace(/(^\s*)|(\s*$)/g, ""), 365);
+    //         }
+    //
+    //         if (state === "Reply") {
+    //             requestJSONObject.commentOriginalCommentId = commentId;
+    //         }
+    //
+    //         $.ajax({
+    //             type: "POST",
+    //             url: latkeConfig.servePath + "/add-" + type + "-comment.do",
+    //             cache: false,
+    //             contentType: "application/json",
+    //             data: JSON.stringify(requestJSONObject),
+    //             success: function (result) {
+    //                 $("#submitCommentButton" + state).removeAttr("disabled");
+    //                 if (!result.sc) {
+    //                     $("#commentErrorTip" + state).html(result.msg);
+    //                     $("#commentValidate" + state).val('');
+    //                     $("#captcha" + state).click();
+    //                     if (!Util.isLoggedIn()) {
+    //                         $("#captcha" + state).attr("src", latkeConfig.servePath + "/captcha.do?code=" + Math.random());
+    //                     }
+    //
+    //                     return;
+    //                 }
+    //
+    //                 $("#comment" + state).val(result.commentContent); // Server processed XSS
+    //                 $("#commentName" + state).val(result.commentName); // Server processed XSS
+    //
+    //                 result.replyNameHTML = "";
+    //                 if (!Util.isLoggedIn()) {
+    //                     $("#captcha" + state).attr("src", latkeConfig.servePath + "/captcha.do?code=" + Math.random());
+    //                     if ($("#commentURL" + state).val().replace(/\s/g, "") === "") {
+    //                         result.replyNameHTML = '<a>' + $("#commentName" + state).val() + '</a>';
+    //                     } else {
+    //                         result.replyNameHTML = '<a href="' + Util.proessURL($("#commentURL" + state).val()) +
+    //                                 '" target="_blank">' + $("#commentName" + state).val() + '</a>';
+    //                     }
+    //                     result.userName = result.commentName;
+    //                 } else {
+    //                     result.replyNameHTML = '<a href="' + window.location.host +
+    //                             '" target="_blank">' + Util.getUserName() + '</a>';
+    //                     result.userName = Util.getUserName();
+    //                 }
+    //
+    //                 if (typeof(addComment) === "undefined") { // https://github.com/b3log/solo/issues/12246
+    //                     that.addCommentAjax(result.cmtTpl, state);
+    //                 } else { // 1.9.0 向后兼容
+    //                     that.addCommentAjax(addComment(result, state), state);
+    //                 }
+    //             }
+    //         });
+    //     }
+    // },
+    submitComment:function (articleId) {
+        alert(articleId);
+        var commentContent = $("#comment").val();
+        var commentEmail = $("#commentEmail").val();
+        var commentURL = $("#commentURL").val();
+        var commentName = $("#commentName").val();
+        var kaptcha = $("#commentValidate").val();
+        if(kaptcha.length > 0){
             $.ajax({
+                url:latkeConfig.servePath + "/view/addComment",
+                data:{
+                    "commentContent":commentContent,
+                    "commentEmail": commentEmail,
+                    "commentURL": commentURL,
+                    "commentName": commentName,
+                    "kaptcha": kaptcha,
+                    "articleId":articleId
+                },
                 type: "POST",
-                url: latkeConfig.servePath + "/add-" + type + "-comment.do",
+                dataType: "json",
+                async: false,
                 cache: false,
-                contentType: "application/json",
-                data: JSON.stringify(requestJSONObject),
                 success: function (result) {
-                    $("#submitCommentButton" + state).removeAttr("disabled");
-                    if (!result.sc) {
-                        $("#commentErrorTip" + state).html(result.msg);
-                        $("#commentValidate" + state).val('');
-                        $("#captcha" + state).click();
-                        if (!Util.isLoggedIn()) {
-                            $("#captcha" + state).attr("src", latkeConfig.servePath + "/captcha.do?code=" + Math.random());
-                        }
-
-                        return;
-                    }
-
-                    $("#comment" + state).val(result.commentContent); // Server processed XSS
-                    $("#commentName" + state).val(result.commentName); // Server processed XSS
-
-                    result.replyNameHTML = "";
-                    if (!Util.isLoggedIn()) {
-                        $("#captcha" + state).attr("src", latkeConfig.servePath + "/captcha.do?code=" + Math.random());
-                        if ($("#commentURL" + state).val().replace(/\s/g, "") === "") {
-                            result.replyNameHTML = '<a>' + $("#commentName" + state).val() + '</a>';
-                        } else {
-                            result.replyNameHTML = '<a href="' + Util.proessURL($("#commentURL" + state).val()) +
-                                    '" target="_blank">' + $("#commentName" + state).val() + '</a>';
-                        }
-                        result.userName = result.commentName;
-                    } else {
-                        result.replyNameHTML = '<a href="' + window.location.host +
-                                '" target="_blank">' + Util.getUserName() + '</a>';
-                        result.userName = Util.getUserName();
-                    }
-
-                    if (typeof(addComment) === "undefined") { // https://github.com/b3log/solo/issues/12246
-                        that.addCommentAjax(result.cmtTpl, state);
-                    } else { // 1.9.0 向后兼容
-                        that.addCommentAjax(addComment(result, state), state);
+                    if (result.status == 0) {
+                        location.reload();
+                    }else {
+                        $("#commentErrorTip").html("验证码错误");
                     }
                 }
             });
+        }else {
+            $("#commentErrorTip").html("验证码不能为空");
         }
+
     },
     /*
      * @description 添加回复评论表单

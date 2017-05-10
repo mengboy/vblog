@@ -2,7 +2,7 @@
 <ul class="comments" id="comments">
     <#list commentList as comment>
     <li id="${comment.commentId}" class="fn-clear">
-        <img class="avatar-48" title="${comment.commentAuthor}" src="${comment.commentThumbnailURL!}">
+        <img class="avatar-48" title="${comment.commentAuthor}" src="${serverPath}/images/">
         <div class="comment-body">
             <div class="fn-clear comment-meta">
                 <span class="fn-left">
@@ -36,19 +36,21 @@
     <table id="commentForm" class="form">
         <tbody>
             <#if  Session.isLogin ??>
+
+            <#else >
             <tr>
                 <td>
-                    <input placeholder="${commentNameLabel!}" type="text" class="normalInput" id="commentName"/>
+                    <input placeholder="${commentNameLabel}" type="text" class="normalInput" id="commentName"/>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input placeholder="${commentEmailLabel!}" type="email" class="normalInput" id="commentEmail"/>
+                    <input placeholder="${commentEmailLabel}" type="email" class="normalInput" id="commentEmail"/>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input placeholder="${commentURLLabel!}" type="url" id="commentURL"/>
+                    <input placeholder="${commentURLLabel}" type="url" id="commentURL"/>
                 </td>
             </tr>
             </#if>
@@ -77,17 +79,19 @@
                 </td>
             </tr>
             <#if Session.isLogin ??>
+
+            <#else >
             <tr>
                 <td>
                     <input style="width:50%" placeholder="${captchaLabel}" type="text" class="normalInput" id="commentValidate"/>
-                    <img id="captcha" alt="validate" src="${servePath}/captcha.do" />
+                    <img id="captcha" alt="validate" src="${servePath}/kaptcha.do" />
                 </td>
             </tr>
             </#if>
             <tr>
                 <td colspan="2" align="right">
                     <span class="error-msg" id="commentErrorTip"></span>
-                    <button id="submitCommentButton" onclick="page.submitComment();">${submmitCommentLabel!}</button>
+                    <button id="submitCommentButton" onclick="page.submitComment(${article.articleId});">${submmitCommentLabel!}</button>
                 </td>
             </tr>
         </tbody>
@@ -97,20 +101,20 @@
 </#macro>
 
 <#macro comment_script oId>
-<script type="text/javascript" src="${staticServePath}/js/page${miniPostfix}.js?${staticResourceVersion}" charset="utf-8"></script>
+<script type="text/javascript" src="${servePath}/js/page${miniPostfix!}.js?${staticResourceVersion!}" charset="utf-8"></script>
 <script type="text/javascript">
                         var page = new Page({
-                            "nameTooLongLabel": "${nameTooLongLabel}",
-                            "mailCannotEmptyLabel": "${mailCannotEmptyLabel}",
-                            "mailInvalidLabel": "${mailInvalidLabel}",
-                            "commentContentCannotEmptyLabel": "${commentContentCannotEmptyLabel}",
-                            "captchaCannotEmptyLabel": "${captchaCannotEmptyLabel}",
-                            "loadingLabel": "${loadingLabel}",
-                            "oId": "${oId}",
-                            "skinDirName": "${skinDirName}",
-                            "blogHost": "${blogHost}",
-                            "randomArticles1Label": "${randomArticles1Label}",
-                            "externalRelevantArticles1Label": "${externalRelevantArticles1Label}"
+                            "nameTooLongLabel": "${nameTooLongLabel!}",
+                            "mailCannotEmptyLabel": "${mailCannotEmptyLabel!}",
+                            "mailInvalidLabel": "${mailInvalidLabel!}",
+                            "commentContentCannotEmptyLabel": "${commentContentCannotEmptyLabel!}",
+                            "captchaCannotEmptyLabel": "${captchaCannotEmptyLabel!}",
+                            "loadingLabel": "${loadingLabel!}",
+                            "oId": "${oId!}",
+                            "skinDirName": "${skinDirName!}",
+                            "blogHost": "${blogHost!}",
+                            "randomArticles1Label": "${randomArticles1Label!}",
+                            "externalRelevantArticles1Label": "${externalRelevantArticles1Label!}"
                         });
                         var addComment = function (result, state) {
                             var commentable = $("#commentForm").length === 0 ? false : true;
@@ -128,7 +132,7 @@
                             commentHTML += '<time>' + result.commentDate
                                     + '</time></span>';
                             if (commentable) {
-                                commentHTML += '<a class="fn-right" href="javascript:replyTo(\'' + result.oId + '\');">${replyLabel}</a>';
+                                commentHTML += '<a class="fn-right" href="javascript:replyTo(\'' + result.oId + '\');">${replyLabel!}</a>';
                             }
                             commentHTML += '</div><div class="comment-content post-body article-body">' +
                                     Util.replaceEmString($("#comment" + state).val())
