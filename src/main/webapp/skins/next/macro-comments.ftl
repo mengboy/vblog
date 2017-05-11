@@ -21,7 +21,7 @@
                     <time>${comment.commentCreated?string("yyyy-MM-dd HH:mm")}</time>
                 </span>
                 <#if article.articleCommentEnable == "open">
-                <a class="fn-right" href="javascript:replyTo('${comment.commentId}')">${replyLabel!}</a>
+                <a class="fn-right" href="javascript:replyTo(${article.articleId} ,${comment.commentId})">${replyLabel!}</a>
                 </#if>
             </div>
             <div class="comment-content post-body article-body">
@@ -139,9 +139,9 @@
                                     + '</div></div></li>';
                             return commentHTML;
                         };
-                        var replyTo = function (id) {
+                        var replyTo = function (articleId, commentId) {
                             var commentFormHTML = "<table class='form comment-reply' id='replyForm'>";
-                            page.addReplyForm(id, commentFormHTML);
+                            page.addReplyForm(articleId, commentId, commentFormHTML);
                         };
                         (function () {
                             page.load();

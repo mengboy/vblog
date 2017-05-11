@@ -20,6 +20,4 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     List<Comment> getCommentsByArticleId(int articleId);
-
-    Comment getCommentParentId(int parentId);
 }

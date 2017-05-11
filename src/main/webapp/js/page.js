@@ -624,7 +624,6 @@ $.extend(Page.prototype, {
     //     }
     // },
     submitComment:function (articleId) {
-        alert(articleId);
         var commentContent = $("#comment").val();
         var commentEmail = $("#commentEmail").val();
         var commentURL = $("#commentURL").val();
@@ -656,17 +655,53 @@ $.extend(Page.prototype, {
         }else {
             $("#commentErrorTip").html("验证码不能为空");
         }
-
     },
+
+
+    applyComment:function (articleId, commentId) {
+        var commentContent = $("#commentReply").val();
+        var commentEmail = $("#commentEmailReply").val();
+        var commentURL = $("#commentURLReply").val();
+        var commentName = $("#commentNameReply").val();
+        var kaptcha = $("#commentValidateReply").val();
+        if(kaptcha.length > 0){
+            $.ajax({
+                url:latkeConfig.servePath + "/view/addComment",
+                data:{
+                    "commentContent":commentContent,
+                    "commentEmail": commentEmail,
+                    "commentURL": commentURL,
+                    "commentName": commentName,
+                    "kaptcha": kaptcha,
+                    "articleId":articleId,
+                    "parentId":commentId
+                },
+                type: "POST",
+                dataType: "json",
+                async: false,
+                cache: false,
+                success: function (result) {
+                    if (result.status == 0) {
+                        location.reload();
+                    }else {
+                        $("#commentErrorTipReply").html("验证码错误");
+                    }
+                }
+            });
+        }else {
+            $("#commentErrorTipReply").html("验证码不能为空");
+        }
+    },
+
     /*
      * @description 添加回复评论表单
      * @param {String} id 被回复的评论 id
      * @param {String} commentFormHTML 评论表单HTML
      * @param {String} endHTML 判断该表单使用 table 还是 div 标签，然后进行构造
      */
-    addReplyForm: function (id, commentFormHTML, endHTML) {
+    addReplyForm: function (articleId, commentId, commentFormHTML, endHTML) {
         var that = this;
-        if (id === this.currentCommentId) {
+        if (commentId === this.currentCommentId) {
             if ($("#commentNameReply").val() === "") {
                 $("#commentNameReply").focus();
             } else if ($("#commentEmailReply").val() === "") {
@@ -679,9 +714,9 @@ $.extend(Page.prototype, {
         $("#replyForm").remove();
         endHTML = endHTML ? endHTML : "";
         if (endHTML === "</div>") {
-            $("#" + id).append(commentFormHTML + $("#commentForm").html() + endHTML);
+            $("#" + commentId).append(commentFormHTML + $("#commentForm").html() + endHTML);
         } else {
-            $("#" + id).append(commentFormHTML + $("#commentForm").html() + "</table>" + endHTML);
+            $("#" + commentId).append(commentFormHTML + $("#commentForm").html() + "</table>" + endHTML);
         }
 
         // change id, bind event and set value
@@ -700,24 +735,25 @@ $.extend(Page.prototype, {
         this.insertEmotions("Reply");
         $("#commentReply").unbind().keypress(function (event) {
             if (event.keyCode === 13 && event.ctrlKey) {
-                that.submitComment(id, 'Reply');
+                that.applyComment(articleId, commentId);
                 event.preventDefault();
             }
         });
         $("#commentValidateReply").unbind().keypress(function (event) {
             if (event.keyCode === 13) {
-                that.submitComment(id, 'Reply');
+                that.applyComment(articleId, commentId);
                 event.preventDefault();
             }
         });
+
         $("#replyForm #captcha").attr("id", "captchaReply").
-                attr("src", latkeConfig.servePath + "/captcha.do?" + new Date().getTime()).click(function () {
+                attr("src", latkeConfig.servePath + "/kaptcha.do?" + new Date().getTime()).click(function () {
             $(this).attr("src", latkeConfig.servePath + "/captcha.do?code=" + Math.random());
         });
         $("#replyForm #commentErrorTip").attr("id", "commentErrorTipReply").html("").hide();
         $("#replyForm #submitCommentButton").attr("id", "submitCommentButtonReply");
         $("#replyForm #submitCommentButtonReply").unbind("click").removeAttr("onclick").click(function () {
-            that.submitComment(id, 'Reply');
+            that.applyComment(articleId, commentId);
         });
         if ($("#commentNameReply").val() === "") {
             $("#commentNameReply").focus();
@@ -727,7 +763,7 @@ $.extend(Page.prototype, {
             $("#commentReply").focus();
         }
 
-        this.currentCommentId = id;
+        this.currentCommentId = commentId;
     },
     /* 
      * @description 隐藏回复评论的浮出层

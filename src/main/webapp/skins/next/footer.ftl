@@ -44,11 +44,11 @@
         "siteViewLabel": "${siteViewLabel!}"
     };
 
-//    $("#emotions span").click(function () {
-//        var comment = $("#comment").val();
-//        comment = comment + "[" + $(this).attr("class") + "]" ;
-//        $("#comment").val(comment);
-//    });
+    $("#emotionsReply span").click(function () {
+        var comment = $("#comment").val();
+        comment = comment + "[" + $(this).attr("class") + "]" ;
+        $("#comment").val(comment);
+    });
 </script>
 
 

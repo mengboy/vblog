@@ -47,7 +47,7 @@ public class TestController {
         view.addObject("skinDirName", "next");
 //        view.addObject("miniPostfix", "");
 //        view.addObject("staticResourceVersion", "");
-        view.addObject("servePath", Utils.getServerPath(request));
+        view.addObject("serverPath", Utils.getServerPath(request));
 
 
         //header.ftl
@@ -180,6 +180,7 @@ public class TestController {
         view.addObject("postTimeLabel", "发表于");
         view.addObject("cmtLabel", "条评论");
         view.addObject("readLabel", "继续阅读");
+        view.addObject("serverPath", Utils.getServerPath(request));
         Article article = articleService.selectByPrimaryKey(Integer.valueOf(articleId));
         List<Taxonomy> taxonomies = taxonomyService.getTagsByArticleId(Integer.valueOf(articleId));
         article.setArticleTags(taxonomies);
@@ -189,7 +190,9 @@ public class TestController {
         List<Comment> comments = commentService.getCommentByArticleId(Integer.valueOf(articleId));
         for(Comment comment : comments){
             if(comment.getParentId() != null && comment.getParentId() > 0){
+                System.out.println(commentService.getCommentByParentId(comment.getParentId()));
                 comment.setParentComment(commentService.getCommentByParentId(comment.getParentId()));
+                System.out.println(comment.getParentComment().getCommentId());
             }
         }
         view.addObject("articleComments", comments);

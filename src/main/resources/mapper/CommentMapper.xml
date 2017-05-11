@@ -173,11 +173,8 @@
 
   <select id="getCommentsByArticleId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     SELECT * FROM tb_comment
-    WHERE article_id = #{articleId, jdbcType=INTEGER} ORDER by article_id DESC
+    WHERE article_id = #{articleId, jdbcType=INTEGER} ORDER by comment_id DESC
   </select>
 
-  <select id="getCommentParentId" parameterType="java.lang.Integer" resultType="com.vector.blog.model.Comment">
-    select * from WHERE parent_id = #{parentId,jdbcType=INTEGER};
-  </select>
 
 </mapper>

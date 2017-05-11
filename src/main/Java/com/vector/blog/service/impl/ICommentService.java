@@ -32,10 +32,9 @@ public class ICommentService implements CommentService{
 
     public Comment getCommentByParentId(int parentId) {
         try {
-            Comment comment = new Comment();
-            comment = commentMapper.getCommentParentId(parentId);
-            return comment;
+            return commentMapper.selectByPrimaryKey(parentId);
         }catch (Exception e){
+            e.printStackTrace();
             return null;
         }
     }
