@@ -44,7 +44,7 @@ CREATE create table tb_user (
   user_role INT(1),
   content_count INT(20),
   comment_count INT(20),
-  user_created DATE
+  user_created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 )
 
 

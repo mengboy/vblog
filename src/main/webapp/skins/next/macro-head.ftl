@@ -10,8 +10,8 @@
 <#--<meta name="revised" content="${blogTitle?html}, 2017" />-->
 <#--<meta name="copyright" content="B3log" />-->
 <meta http-equiv="Window-target" content="_top" />
-<link type="text/css" rel="stylesheet" href="${servePath}/skins/${skinDirName}/static/css/${skinDirName}${miniPostfix!}.css?${staticResourceVersion!}" charset="utf-8" />
+<link type="text/css" rel="stylesheet" href="${serverPath}/skins/${skinDirName}/static/css/${skinDirName}${miniPostfix!}.css?${staticResourceVersion!}" charset="utf-8" />
 <#--<link href="${servePath}/blog-articles-rss.do" title="RSS" type="application/rss+xml" rel="alternate" />-->
-<link rel="icon" type="image/png" href="${servePath}/images/favicon.png" />
+<link rel="icon" type="image/png" href="${serverPath}/images/favicon.png" />
 ${htmlHead!}
 </#macro>

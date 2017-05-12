@@ -13,7 +13,7 @@
         </#if>
         <nav>
             <div class="site-state-item">
-                <a href="${servePath}/archives.html">
+                <a href="${serverPath}/archives.html">
                     <span class="site-state-item-count">${statistic.statisticPublishedBlogArticleCount}</span>
                     <span class="site-state-item-name">${articleLabel}</span>
                 </a>
@@ -25,7 +25,7 @@
             </div>
 
             <div class="site-state-item site-state-tags">
-                <a href="${servePath}/dynamic.html">
+                <a href="${serverPath}/dynamic.html">
                     <span class="site-state-item-count">${statistic.statisticPublishedBlogCommentCount}</span>
                     <span class="site-state-item-name">${commentLabel}</span>
                 </a>
@@ -33,34 +33,34 @@
         </nav>
 
         <div class="feed-link">
-            <a href="${servePath}/blog-articles-rss.do" rel="alternate">
+            <a href="${serverPath}/blog-articles-rss.do" rel="alternate">
                 <i class="icon-rss"></i>
                 RSS
             </a>
         </div>
 
         <div class="links-of-author">
-            <#if isLoggedIn>
+            <#if Session.isLogin ??>
             <span class="links-of-author-item">
-                <a href="${servePath}/admin-index.do#main" title="${adminLabel}">
+                <a href="${serverPath}/admin-index.do#main" title="${adminLabel}">
                     <i class="icon-setting"></i> ${adminLabel}
                 </a>
             </span>
 
             <span class="links-of-author-item">
-                <a href="${logoutURL}">
+                <a href="${serverPath}/admin/logout">
                     <i class="icon-logout"></i> ${logoutLabel}
                 </a>
             </span>
             <#else>
             <span class="links-of-author-item">
-                <a href="${loginURL}">
+                <a href="${serverPath}/admin/login_page">
                     <i class="icon-login"></i> ${loginLabel}
                 </a>
             </span>
 
             <span class="links-of-author-item">
-                <a href="${servePath}/register">
+                <a href="${serverPath}/register">
                     <i class="icon-register"></i> ${registerLabel}
                 </a>
             </span>

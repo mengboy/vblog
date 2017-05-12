@@ -5,6 +5,7 @@ import com.vector.blog.model.Taxonomy;
 import com.vector.blog.model.admin.*;
 import com.vector.blog.service.MenuService;
 import com.vector.blog.service.TaxonomyService;
+import com.vector.blog.service.UserService;
 import com.vector.blog.utils.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,26 +33,51 @@ public class AdminController {
     @Resource
     TaxonomyService taxonomyService;
 
+    @Resource
+    UserService userService;
     //private static List<Menu> menus;
 
 
     /**
      * 登录界面
-     * @param response
      * @param request
      * @return
      */
-    @RequestMapping(value = "/login")
-    public ModelAndView adminLogin(HttpServletResponse response, HttpServletRequest request){
+    @RequestMapping(value = "/login_page")
+    public ModelAndView adminLoginPage(HttpServletRequest request){
         ModelAndView view = new ModelAndView();
         view.addObject("CPATH", Utils.getServerPath(request));
         view.setViewName("login");
         return view;
     }
 
+    @RequestMapping("/login")
+    public ModelAndView adminLogin(HttpServletRequest request, HttpSession session, @RequestParam("username") String username,
+                                   @RequestParam("password") String password){
+        if(username != null && password != null && username.length() > 0){
+            User user = userService.getUserByName(username);
+            if(user != null){
+                if(user.getUserPassword() != null && user.getUserPassword().equals(password)){
+                    session.setAttribute("user", user);
+                    session.setAttribute("isLogin", "true");
+                    return adminIndex(request);
+                }
+            }
+        }
+        ModelAndView view = adminLoginPage(request);
+        view.addObject("message", "登录错误");
+        return view;
+    }
+
+    @RequestMapping(value = "/logout")
+    public ModelAndView adminLogout(HttpServletRequest request, HttpSession session){
+        session.invalidate();
+        return null;
+    }
+
 
     @RequestMapping(value = "/index")
-    public ModelAndView adminIndex(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView adminIndex(HttpServletRequest request){
         ModelAndView view = new ModelAndView("admin-index");
 
         view.addObject("CPATH", Utils.getServerPath(request));

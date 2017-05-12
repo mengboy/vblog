@@ -2,7 +2,7 @@
     <div class="header-line"></div>
     <div class="fn-clear wrapper">
         <div class="logo-wrap">
-            <a href="${servePath}" rel="start">
+            <a href="${serverPath}" rel="start">
                 <span class="logo-line-before"><i></i></span>
                 <span class="site-title">${blogTitle}</span>
                 <span class="logo-line-after"><i></i></span>
@@ -27,22 +27,22 @@
                     </#list>
                 </#if>
                 <li class="menu-item">
-                    <a href="${servePath}/dynamic.html" rel="section">
+                    <a href="${serverPath}/dynamic.html" rel="section">
                         ${dynamicLabel}
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="${servePath}/tags.html" rel="section">
+                    <a href="${serverPath}/tags.html" rel="section">
                         ${allTagsLabel}
                     </a>  
                 </li>
                 <li class="menu-item">
-                    <a href="${servePath}/archives.html">
+                    <a href="${serverPath}/archives.html">
                         ${archiveLabel}
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a rel="alternate" href="${servePath}/blog-articles-rss.do" rel="section">
+                    <a rel="alternate" href="${serverPath}/blog-articles-rss.do" rel="section">
                         RSS
                     </a>
                 </li>

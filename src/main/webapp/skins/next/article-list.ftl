@@ -6,7 +6,7 @@
     <article class="post-item">
         <header>
             <h1>
-                <a class="post-title-link"  rel="bookmark" href="${servePath}/article/show?articleId=${article.article.articleId}">
+                <a class="post-title-link"  rel="bookmark" href="${serverPath}/article/show?articleId=${article.article.articleId}">
                     ${article.article.articleTitle}
                 </a>
                 <#if article.article.articlePutTop ??>
@@ -30,7 +30,7 @@
                 </span>
                 <span>
                     &nbsp; | &nbsp;
-                    <a href="${servePath}/article/show?articleId={article.article.articleId}#comments">
+                    <a href="${serverPath}/article/show?articleId={article.article.articleId}#comments">
                         ${article.article.commentCount !} ${cmtLabel}</a>
                 </span>
                 &nbsp; | &nbsp;${viewsLabel} ${article.article.articleView}°C
@@ -40,7 +40,7 @@
             ${article.article.articleSummary}
         </div>
         <div class="post-more-link">
-            <a href="${servePath}/article/show?articleId=${article.article.articleId}#more" rel="contents">
+            <a href="${serverPath}/article/show?articleId=${article.article.articleId}#more" rel="contents">
                 ${readLabel} &raquo;
             </a>
         </div>
@@ -66,8 +66,8 @@
     </#if>
     </#list>
     <#if paginationPageNums?last != paginationPageCount> ...
-    <a href="${servePath}${path}/${paginationPageCount}" class="page-number">${paginationPageCount}</a>
-    <a href="${servePath}${path}/${paginationNextPageNum}" class="extend next">>></a>
+    <a href="${serverPath}${path}/${paginationPageCount}" class="page-number">${paginationPageCount}</a>
+    <a href="${serverPath}${path}/${paginationNextPageNum}" class="extend next">>></a>
     </#if>
 </nav>
 

@@ -1,6 +1,6 @@
 <footer class="footer">
     <div class="wrapper fn-clear">
-        <a href="${servePath}">${blogTitle}</a>  •
+        <a href="${serverPath}">${blogTitle}</a>  •
         ${onlineVisitor1Label}${onlineVisitorCnt} <br/>
         &copy; ${year!}
         ${footerContent!}
@@ -12,12 +12,12 @@
 </footer>
 <div class="back-to-top" onclick="Util.goTop()"></div>
 
-<script type="text/javascript" src="${servePath}/js/lib/jquery/jquery.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="${servePath}/js/common${miniPostfix!}.js?${staticResourceVersion!}" charset="utf-8"></script>
-<script type="text/javascript" src="${servePath}/skins/${skinDirName}/static/js/${skinDirName}${miniPostfix!}.js?${staticResourceVersion!}" charset="utf-8"></script>
+<script type="text/javascript" src="${serverPath}/js/lib/jquery/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="${serverPath}/js/common${miniPostfix!}.js?${staticResourceVersion!}" charset="utf-8"></script>
+<script type="text/javascript" src="${serverPath}/skins/${skinDirName}/static/js/${skinDirName}${miniPostfix!}.js?${staticResourceVersion!}" charset="utf-8"></script>
 <script type="text/javascript">
     var latkeConfig = {
-        "servePath": "${servePath}",
+        "servePath": "${serverPath}",
         "staticServePath": "${staticServePath!}",
         "isLoggedIn": "${isLoggedIn?string}",
         "userName": "${userName!}"
