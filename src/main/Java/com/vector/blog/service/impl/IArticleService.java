@@ -3,12 +3,14 @@ package com.vector.blog.service.impl;
 import com.vector.blog.common.QueryBase;
 import com.vector.blog.common.Status;
 import com.vector.blog.mapper.ArticleMapper;
+import com.vector.blog.mapper.CommentMapper;
 import com.vector.blog.mapper.TaxonomyMapper;
 import com.vector.blog.model.Article;
 import com.vector.blog.model.Content;
 import com.vector.blog.model.Taxonomy;
 import com.vector.blog.service.ArticleService;
 
+import com.vector.blog.service.CommentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +30,9 @@ public class IArticleService implements ArticleService{
 
     @Resource
     TaxonomyMapper taxonomyMapper;
+
+    @Resource
+    CommentMapper commentMapper;
 
 
     public int addArticle(Article article) {
@@ -70,6 +75,7 @@ public class IArticleService implements ArticleService{
                 List<Taxonomy> categories = taxonomyMapper.getCategoriesByArticleId(article.getArticleId());
                 article.setArticleTags(tags);
                 article.setCategories(categories);
+                article.setCommentCount(commentMapper.getCommentCountByArticleId(article.getArticleId()));
                 map.put("article", article);
                 mapLists.add(map);
             }

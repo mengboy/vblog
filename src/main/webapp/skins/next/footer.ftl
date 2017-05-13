@@ -19,7 +19,7 @@
     var latkeConfig = {
         "servePath": "${serverPath}",
         "staticServePath": "${staticServePath!}",
-        "isLoggedIn": "${isLoggedIn?string}",
+        "isLoggedIn": "${Session.isLogin!}",
         "userName": "${userName!}"
     };
 

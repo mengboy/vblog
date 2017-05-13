@@ -1,6 +1,7 @@
 package com.vector.blog.service.impl;
 
 import com.vector.blog.common.Status;
+import com.vector.blog.mapper.ArticleMapper;
 import com.vector.blog.mapper.CommentMapper;
 import com.vector.blog.model.Comment;
 import com.vector.blog.service.CommentService;
@@ -16,7 +17,6 @@ import java.util.List;
 
 @Service("CommentService")
 public class ICommentService implements CommentService{
-
     @Resource
     CommentMapper commentMapper;
 
@@ -46,5 +46,9 @@ public class ICommentService implements CommentService{
         }catch (Exception e){
             return Status.ERROR;
         }
+    }
+
+    public int getCommentCountByArticleId(int articleId) {
+        return commentMapper.getCommentCountByArticleId(articleId);
     }
 }

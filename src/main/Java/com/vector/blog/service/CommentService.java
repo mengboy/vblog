@@ -13,4 +13,6 @@ public interface CommentService {
     Comment getCommentByParentId(int parentId);
 
     public int addComment(Comment comment);
+
+    public int getCommentCountByArticleId(int articleId);
 }

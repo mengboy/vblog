@@ -60,7 +60,7 @@
             </span>
 
             <span class="links-of-author-item">
-                <a href="${serverPath}/register">
+                <a href="${serverPath}/user/register">
                     <i class="icon-register"></i> ${registerLabel}
                 </a>
             </span>

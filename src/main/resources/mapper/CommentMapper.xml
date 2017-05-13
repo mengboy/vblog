@@ -176,5 +176,9 @@
     WHERE article_id = #{articleId, jdbcType=INTEGER} ORDER by comment_id DESC
   </select>
 
+  <select id="getCommentCountByArticleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM tb_comment
+    WHERE article_id = #{articleId, jdbcType=INTEGER}
+  </select>
 
 </mapper>

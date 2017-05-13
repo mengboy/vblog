@@ -1,6 +1,7 @@
 package com.vector.blog;
 
 import com.vector.blog.common.QueryBase;
+import com.vector.blog.common.ftl.Ftl;
 import com.vector.blog.model.*;
 import com.vector.blog.model.admin.Admin;
 import com.vector.blog.service.ArticleService;
@@ -40,26 +41,11 @@ public class TestController {
     public ModelAndView testView(HttpServletRequest request, HttpServletResponse response){
         ModelAndView view = new ModelAndView("index");
         //index.ftl
-        view.addObject("blogTitle", "vblog");
-        //macro-head.ftl
-//        view.addObject("year", "2017");
-//        view.addObject("staticServePath", "");
-        view.addObject("skinDirName", "next");
-//        view.addObject("miniPostfix", "");
-//        view.addObject("staticResourceVersion", "");
+       view.addAllObjects(Ftl.getIndexFtlMap());
         view.addObject("serverPath", Utils.getServerPath(request));
 
-
         //header.ftl
-
-        //搜索
-        view.addObject("searchLabel", "搜索");
-        view.addObject("serverHost", "localhost");
-
-        //页面
-        view.addObject("dynamicLabel", "动态");
-        view.addObject("allTagsLabel", "标签");
-        view.addObject("archiveLabel", "存档");
+        view.addAllObjects(Ftl.getHeaderFtlMap());
 
         //添加页面
 //        HashMap<String, Object> page = new HashMap<String, Object>();
@@ -74,16 +60,14 @@ public class TestController {
         QueryBase queryBase = new QueryBase();
         try{
              articleService.getByPage(queryBase);
-//             System.out.println(queryBase.getResults().size());
              view.addObject("queryBase", queryBase);
         }catch (Exception e){
+            e.printStackTrace();
             return null;
         }
 
         //article-list.ftl
-        view.addObject("postTimeLabel", "发表于");
-        view.addObject("cmtLabel", "条评论");
-        view.addObject("readLabel", "继续阅读");
+        view.addAllObjects(Ftl.getArticlelistFtlMap());
 
         //分页
         Long paginationPageCount = queryBase.getTotalPage();
@@ -103,22 +87,11 @@ public class TestController {
         view.addObject("topArticleLabel", "test");
         view.addObject("updatedLabel", "test");
 
-        view.addObject("viewsLabel", "热度");
+
 
         //side.ftl
         view.addObject("userName", "vector");
-        view.addObject("noticeBoard", "noticeBoard");
-        view.addObject("blogSubtitle", "Java开源博客");
-        view.addObject("articleLabel", "文章");
-        view.addObject("viewLabel", "浏览");
-        view.addObject("commentLabel", "评论");
-        view.addObject("isLoggedIn", false);
-        view.addObject("adminLabel", "adminLabel");
-        view.addObject("logoutLabel", "退出");
-        view.addObject("logoutURL", "http:127.0.0.1");
-        view.addObject("loginURL", "http:127.0.0.1");
-        view.addObject("loginLabel", "登录");
-        view.addObject("registerLabel", "registerLabel");
+        view.addAllObjects(Ftl.getSideFtlMap());
 
         Admin admin = new Admin();
         admin.setUserAvatar("/images/favicon.png");
@@ -184,7 +157,7 @@ public class TestController {
         Article article = articleService.selectByPrimaryKey(Integer.valueOf(articleId));
         List<Taxonomy> taxonomies = taxonomyService.getTagsByArticleId(Integer.valueOf(articleId));
         article.setArticleTags(taxonomies);
-        view.addObject("article", article);
+
 
         //comment.ftl
         List<Comment> comments = commentService.getCommentByArticleId(Integer.valueOf(articleId));
@@ -196,6 +169,8 @@ public class TestController {
             }
         }
         view.addObject("articleComments", comments);
+        article.setCommentCount(comments.size());
+        view.addObject("article", article);
         view.addObject("commentNameLabel", "姓名");
         view.addObject("commentEmailLabel", "邮箱");
         view.addObject("commentURLLabel", "URL");

@@ -29,6 +29,7 @@ public class ViewController {
     @Resource
     CommentService commentService;
 
+
     @RequestMapping("/index")
     public ModelAndView viewIndex(HttpServletRequest request){
         ModelAndView view = new ModelAndView("index");
