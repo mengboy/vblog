@@ -241,7 +241,7 @@
 
   <select id="selectArticleByPage" parameterType="com.vector.blog.common.QueryBase" resultMap="BaseResultMap">
     SELECT * FROM tb_article
-    WHERE 1= 1 limit #{firstRow},#{pageSize}
+    WHERE 1= 1 ORDER BY article_id DESC limit #{firstRow},#{pageSize}
   </select>
 
 
@@ -274,4 +274,18 @@
     UPDATE tb_aticle
     SET  article_status = 'trash' WHERE article_id = #{articleId, jdbcType=INTEGER}
   </update>
+
+  <select id="selectPreOneById" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM tb_article
+    WHERE article_id = (SELECT article_id FROM tb_article
+    WHERE article_id &gt; #{articleId, jdbcType=INTEGER}
+    ORDER BY article_id ASC limit 1)
+  </select>
+
+  <select id="selectNextOneById" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM tb_article
+    WHERE article_id = (SELECT article_id FROM tb_article
+    WHERE article_id &lt; #{articleId, jdbcType=INTEGER}
+    ORDER BY article_id DESC limit 1)
+  </select>
 </mapper>

@@ -150,4 +150,22 @@ public class IArticleService implements ArticleService{
         return articleMapper.selectByPrimaryKey(articleId);
     }
 
+    public Article selectPreOneById(int articleId) {
+        try{
+            return articleMapper.selectPreOneById(articleId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Article selectNextOneById(int articleId) {
+        try {
+            return articleMapper.selectNextOneById(articleId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

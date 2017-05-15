@@ -47,15 +47,6 @@ public class TestController {
         //header.ftl
         view.addAllObjects(Ftl.getHeaderFtlMap());
 
-        //添加页面
-//        HashMap<String, Object> page = new HashMap<String, Object>();
-//        page.put("pagePermalink", "http:127.0.0.1");
-//        page.put("pageOpenTarget", "");
-//        page.put("pageTitle", "test");
-//        LinkedList<HashMap> pageNavigations = new LinkedList<HashMap>();
-//        pageNavigations.add(page);
-//        view.addObject("pageNavigations", pageNavigations);
-
 
         QueryBase queryBase = new QueryBase();
         try{
@@ -99,37 +90,19 @@ public class TestController {
 
         Statistic statistic = new Statistic(1, 1, 1);
         view.addObject("statistic", statistic);
-
         Link link = new Link("test", "test", "test");
         LinkedList<Link> links = new LinkedList<Link>();
         links.add(link);
         view.addObject("links", links);
+
         //footer.ftl
-        view.addObject("em00Label", "微笑");
-        view.addObject("em01Label", "大笑");
-        view.addObject("em02Label", "高兴");
-        view.addObject("em03Label", "悲伤");
-        view.addObject("em04Label", "哭泣");
-        view.addObject("em05Label", "无语");
-        view.addObject("em06Label", "烦躁");
-        view.addObject("em07Label", "生气");
-        view.addObject("em08Label", "我瞅");
-        view.addObject("em09Label", "惊讶");
-        view.addObject("em10Label", "酷");
-        view.addObject("em11Label", "顽皮");
-        view.addObject("em12Label", "爱心");
-        view.addObject("em13Label", "心碎");
-        view.addObject("em14Label", "魔鬼");
-
-
-
-
-        view.addObject("onlineVisitor1Label", "在线人数");
+        view.addAllObjects(Ftl.getFooterFtlMap());
         view.addObject("onlineVisitorCnt", 5);
         view.addObject("footerContent", "footerContent");
         view.addObject("version", "1.0");
         return view;
     }
+
 
 
     @RequestMapping(value = "/article/show")
@@ -170,35 +143,28 @@ public class TestController {
         }
         view.addObject("articleComments", comments);
         article.setCommentCount(comments.size());
+
         view.addObject("article", article);
-        view.addObject("commentNameLabel", "姓名");
-        view.addObject("commentEmailLabel", "邮箱");
-        view.addObject("commentURLLabel", "URL");
-        view.addObject("em00Label", "微笑");
-        view.addObject("em01Label", "大笑");
-        view.addObject("em02Label", "高兴");
-        view.addObject("em03Label", "悲伤");
-        view.addObject("em04Label", "哭泣");
-        view.addObject("em05Label", "无语");
-        view.addObject("em06Label", "烦躁");
-        view.addObject("em07Label", "生气");
-        view.addObject("em08Label", "我瞅");
-        view.addObject("em09Label", "惊讶");
-        view.addObject("em10Label", "酷");
-        view.addObject("em11Label", "顽皮");
-        view.addObject("em12Label", "爱心");
-        view.addObject("em13Label", "心碎");
-        view.addObject("em14Label", "魔鬼");
-        view.addObject("captchaLabel", "验证码");
-        view.addObject("submmitCommentLabel", "提交评论");
-        view.addObject("nameTooLongLabel", "姓名只能为 2 到 20 个字符");
-        view.addObject("mailCannotEmptyLabel", "邮箱不能为空");
-        view.addObject("mailInvalidLabel", "邮箱格式不正确");
-        view.addObject("commentContentCannotEmptyLabel", "评论内容只能为2到500个字符");
-        view.addObject("captchaCannotEmptyLabel", "验证码不能为空");
-        view.addObject("loadingLabel", "载入中....");
+
+        Article preArticle = articleService.selectPreOneById(Integer.valueOf(articleId));
+        Article nextArticle = articleService.selectNextOneById(Integer.valueOf(articleId));
+
+//        System.out.print("id" + nextArticle.getArticleId());
+
+        if(preArticle != null){
+            view.addObject("previousArticleId", preArticle.getArticleId());
+            view.addObject("previousArticleTitle", preArticle.getArticleTitle());
+        }
+
+        if(nextArticle != null){
+            view.addObject("nextArticlePermaId", nextArticle.getArticleId());
+            view.addObject("nextArticleTitle", nextArticle.getArticleTitle());
+        }
+
+
+        view.addAllObjects(Ftl.getCommentFtlMap());
         view.addObject("blogHost", Utils.getServerPath(request));
-        view.addObject("replyLabel", "回复");
+
 //        view.addObject("plugins", "'../../plugins/fancybox/plugin.ftl' ");
 
 

@@ -36,4 +36,8 @@ public interface ArticleMapper {
     int upArticleDraft(int articleId);
 
     int upArticleTrash(int articleId);
+
+    Article selectPreOneById(int artilceId);
+
+    Article selectNextOneById(int artilceId);
 }

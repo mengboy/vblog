@@ -40,4 +40,8 @@ public interface ArticleService {
 
     public Article selectByPrimaryKey(Integer articleId);
 
+    public Article selectPreOneById(int articleId);
+
+    public Article selectNextOneById(int article);
+
 }
