@@ -28,6 +28,14 @@
     <mvc:resources mapping="/plugins/fancybox/js/**" location="/plugins/fancybox/js/"/>
     <!--<mvc:resources mapping="/skins/next/static/css/**" location="/skins/next/static/css/"/>-->
     <!--<mvc:resources mapping="/skins/next/static/js/**" location="/skins/next/static/js/"/>-->
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <bean class="com.vector.blog.interceptor.AdminInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
     <bean id="mappingJacksonHttpMessageConverter"
           class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">

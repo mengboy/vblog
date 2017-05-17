@@ -42,8 +42,8 @@
         <div class="links-of-author">
             <#if Session.isLogin ??>
             <span class="links-of-author-item">
-                <a href="${serverPath}/admin-index.do#main" title="${adminLabel}">
-                    <i class="icon-setting"></i> ${adminLabel}
+                <a href="${serverPath}/admin/index" title="${Session.user.userName}">
+                    <i class="icon-setting"></i> ${Session.user.userName}
                 </a>
             </span>
 

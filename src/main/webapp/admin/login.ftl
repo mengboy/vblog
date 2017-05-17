@@ -31,8 +31,8 @@
 		<!-- /.login-logo -->
 		<div class="login-box-body">
 			<p class="login-box-msg">管理员登录</p>
-
-			<form action="${CPATH}/admin/login" method="post" id="loginform">
+			<span style="color: red; padding-left: 130px">${message!}</span>
+			<form action="${CPATH}/admin/userLogin" method="post" id="loginform">
 				<div class="form-group has-feedback">
 					<label>用户名：</label> <input class="form-control" name="username">
 					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -71,30 +71,29 @@
 	<!-- Bootstrap 3.3.5 -->
 	<script src="${CPATH}/static/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${CPATH}/static/plugins/pace/pace.min.js"></script>
-	<script>
-		$(function() {
-			$(document).ajaxStart(function() {
-				Pace.restart();
-			});
+	<#--<script>-->
+		<#--$(function() {-->
+			<#--$(document).ajaxStart(function() {-->
+				<#--Pace.restart();-->
+			<#--});-->
 
-			$("#loginform").submit(function() {
-				$(this).ajaxSubmit({
-					type : "post", 
-					dataType : "json", 
-					success : function(data) { 
-						if(data.errorCode == 0){
-							window.location.href="${CPATH}/admin/index";
-						}else{
-							alert(data.message);
-						}
-					},
-					error : function() {
-						alert("信息提交错误");
-					}
-				});
-				return false; //不刷新页面  
-			});
-		});
-	</script>
+			<#--$("#loginform").submit(function() {-->
+				<#--$(this).ajaxSubmit({-->
+					<#--type : "post", -->
+					<#--dataType : "json", -->
+					<#--success : function(data) { -->
+						<#--if(data.status == 0){-->
+							<#--window.location.href="${CPATH}/admin/index";-->
+						<#--}else{-->
+							<#--alert(data.message);-->
+						<#--}-->
+					<#--},-->
+					<#--error : function() {-->
+						<#--alert("信息提交错误");-->
+					<#--}-->
+				<#--});-->
+			<#--});-->
+		<#--});-->
+	<#--</script>-->
 </body>
 </html>

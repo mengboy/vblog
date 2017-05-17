@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,12 +52,14 @@ public class AdminController {
         return view;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/userLogin")
     public ModelAndView adminLogin(HttpServletRequest request, HttpSession session, @RequestParam("username") String username,
                                    @RequestParam("password") String password){
         if(username != null && password != null && username.length() > 0){
+            System.out.print(username);
             User user = userService.getUserByName(username);
             if(user != null){
+                System.out.print(username);
                 if(user.getUserPassword() != null && user.getUserPassword().equals(password)){
                     session.setAttribute("user", user);
                     session.setAttribute("isLogin", "true");
@@ -70,9 +73,14 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/logout")
-    public ModelAndView adminLogout(HttpServletRequest request, HttpSession session){
+    public void adminLogout(HttpServletRequest request, HttpSession session, HttpServletResponse response){
         session.invalidate();
-        return null;
+        try {
+            response.sendRedirect(request.getContextPath() + "/view/index");
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
     }
 
 
