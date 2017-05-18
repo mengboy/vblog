@@ -6,4 +6,6 @@ public interface ContentTaxMapper {
     int insert(ContentTax record);
 
     int insertSelective(ContentTax record);
+
+    int delByarticleId(int articleId);
 }

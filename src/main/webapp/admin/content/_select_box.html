@@ -1,4 +1,4 @@
-<@category content=content! taxonomyType=taxonomyType! /> 
+<@category content=article! taxonomyType=taxonomyType! />
 <#macro category content taxonomyType>
 <div class="box box-solid">
 	<div class="box-header with-border">
@@ -18,8 +18,20 @@
 					<#list taxonomies as taxonomy>
 						<li>
 							<label>
-								<input name="_category" value="${taxonomy.taxId}" type="checkbox">
-								${taxonomy.taxTitle}
+								<#if content.categories ??>
+									<#list content.categories as categorie>
+										<#if categorie.taxTitle == taxonomy.taxTitle>
+											<input name="_category" value="${taxonomy.taxId}" type="checkbox" checked>
+											${taxonomy.taxTitle}
+										<#else>
+											<input name="_category" value="${taxonomy.taxId}" type="checkbox">
+											${taxonomy.taxTitle}
+										</#if>
+									</#list>
+								<#else>
+									<input name="_category" value="${taxonomy.taxId}" type="checkbox">
+									${taxonomy.taxTitle}
+								</#if>
 							</label>
 						</li>
 					</#list>

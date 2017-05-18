@@ -7,4 +7,6 @@ import com.vector.blog.model.ContentTax;
  */
 public interface ContentTaxService {
     public int insert(ContentTax contentTax);
+
+    public int delByarticleId(int articleId);
 }

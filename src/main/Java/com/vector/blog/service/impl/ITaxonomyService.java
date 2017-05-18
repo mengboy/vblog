@@ -57,4 +57,14 @@ public class ITaxonomyService implements TaxonomyService {
             return null;
         }
     }
+
+    public List<Taxonomy> getCategoriesByArticleId(int articleId) {
+        try{
+            List<Taxonomy> taxonomies = taxonomyMapper.getCategoriesByArticleId(articleId);
+            return taxonomies;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

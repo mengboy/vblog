@@ -15,14 +15,14 @@
 
 				<li class="dropdown user user-menu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<span class="hidden-xs">${USER.nickName!USER.userName}， 您好</span>
+						<span class="hidden-xs">${Session.user.userName}， 您好</span>
 						<img src="${CPATH}${(USER.avatar)!'/static/jpress/admin/image/avatar.jpg'}" class="user-image" >
 					</a>
 					<ul class="dropdown-menu">
 						<!-- User image -->
 						<li class="user-header">
 							<img src="${CPATH}${(USER.avatar)!'/static/jpress/admin/image/avatar.jpg'}" style="border-radius: 50%;" >
-							<p>${USER.nickName!USER.userName} - 超级管理员</p>
+							<p>${Session.user.userName} - 超级管理员</p>
 							</li>
 						<li class="user-footer">
 							<div class="pull-left">

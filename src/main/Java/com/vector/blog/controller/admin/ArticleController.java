@@ -61,7 +61,8 @@ public class ArticleController {
     public Object adminSaveArctile(@RequestParam(value = "content.module", required = false) String contentModule, @RequestParam("content.status") String contentStatus,
                                    @RequestParam("content.title") String title, @RequestParam("content.text") String text, @RequestParam(value = "content.flag", required = false) String flag,
                                    @RequestParam(value = "_category", required = false) String category, @RequestParam(value = "_tag", required = false) String tag,
-                                   @RequestParam(value = "content.comment_status", required = false) String articleCommentEnable){
+                                   @RequestParam(value = "content.comment_status", required = false) String articleCommentEnable,
+                                   @RequestParam(value = "content.id", required = false) String contentId){
 
         int markdownEnable = 1;
 
@@ -93,6 +94,7 @@ public class ArticleController {
         if(mText.find()){
             markdownEnable = 0;
             text = mText.group().replaceAll("body", "div");
+
             article.setArticleText(text);
         }
 
@@ -111,8 +113,19 @@ public class ArticleController {
         int artilceId;
 
         try{
-            articleService.addArticle(article);
-            artilceId = articleService.selectArticleId();
+            //修改文章
+            if(contentId != null && contentId.trim().length() > 0){
+                article.setArticleId(Integer.valueOf(contentId));
+                System.out.println(article.getArticleText());
+                articleService.updateArticle(article);
+                contentTaxService.delByarticleId(Integer.valueOf(contentId));
+                artilceId = Integer.valueOf(contentId);
+            }else {
+                //添加新文章
+                articleService.addArticle(article);
+                artilceId = articleService.selectArticleId();
+            }
+
             for(String acategoy : categorys){
                 ContentTax contentTax = new ContentTax(artilceId, Integer.valueOf(acategoy));
                 contentTaxService.insert(contentTax);
@@ -208,12 +221,10 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/content/edit_article")
-    public ModelAndView adminEditArticle(HttpServletResponse response, HttpServletRequest request, @RequestParam("id") String id){
+    public ModelAndView adminEditArticle(HttpServletResponse response, HttpServletRequest request, @RequestParam("id") String id,
+                                         @RequestParam(value = "articleid", required = false) String articleid){
         ModelAndView view = new ModelAndView("content/edit_content");
         view.addObject("CPATH", Utils.getServerPath(request));
-        view.addObject("ucode", "29837148937489");
-        Admin admin = new Admin("vector", "admin");
-        view.addObject("USER", admin);
 
         List<Menu> menus;
         menus = menuService.getTopLevelMenu();
@@ -230,10 +241,17 @@ public class ArticleController {
         taxonomyTypes.add(taxonomyTag);
         module.setTaxonomyTypes(taxonomyTypes);
         view.addObject("module", module);
-
-
         List<Taxonomy> taxonomies = taxonomyService.getAllCategory();
         view.addObject("taxonomies", taxonomies);
+
+        if(articleid != null && articleid.length() > 0){
+            Article article = articleService.selectByPrimaryKey(Integer.valueOf(articleid));
+            article.setArticleTags(taxonomyService.getTagsByArticleId(Integer.valueOf(articleid)));
+            article.setCategories(taxonomyService.getCategoriesByArticleId(Integer.valueOf(articleid)));
+            view.addObject("article", article);
+        }
+
+
 
         view.addObject("topLevelId", id);
         view.addObject("edit", true);

@@ -1,4 +1,4 @@
-<@tag content=content! taxonomyType=taxonomyType! /> 
+<@tag content=article! taxonomyType=taxonomyType! />
 <#macro tag content taxonomyType>
 <div class="box box-solid">
 	<div class="box-header with-border">
@@ -16,7 +16,11 @@
 				<li>
 					<div class="form-group" style="margin-bottom: 0;">
 						<textarea name="_${taxonomyType.name}" id="_${taxonomyType.name}" class="form-control ">
-						${(content.getTaxonomyAsString(taxonomyType.name))!}
+							<#if content.articleTags ??>
+								<#list content.articleTags as tag>
+									${tag.taxTitle }&nbsp;
+								</#list>
+							</#if>
 					</textarea>
 					</div>
 					<div class="clr"></div>

@@ -37,4 +37,8 @@
       </if>
     </trim>
   </insert>
+  <delete id="delByarticleId" parameterType="java.lang.Integer">
+    DELETE FROM tb_content_tax
+     WHERE article_id = #{articleId,jdbcType=INTEGER}
+  </delete>
 </mapper>

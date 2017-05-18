@@ -44,7 +44,13 @@ public class IArticleService implements ArticleService{
     }
 
     public int updateArticle(Article article) {
-        return 0;
+        try{
+            articleMapper.updateByPrimaryKeySelective(article);
+            return Status.SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return Status.ERROR;
+        }
     }
 
 

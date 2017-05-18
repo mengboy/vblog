@@ -23,4 +23,6 @@ public interface TaxonomyService {
     public int upContentCount(int taxId);
 
     public List<Taxonomy> getTagsByArticleId(int articleId);
+
+    public List<Taxonomy> getCategoriesByArticleId(int articleId);
 }
