@@ -94,9 +94,8 @@ public class ArticleController {
         if(mText.find()){
             markdownEnable = 0;
             text = mText.group().replaceAll("body", "div");
-
-            article.setArticleText(text);
         }
+        article.setArticleText(text);
 
         //获取摘要
         Pattern pSummary = Pattern.compile("<p>(.*?)</p>");
@@ -188,6 +187,7 @@ public class ArticleController {
         view.addObject("topLevelId", id);
 
         try{
+            //获取各种状态文章数量
             int count = articleService.getPageConut();
             view.addObject("count", count);
             int normal_count = articleService.getNormalCount();
@@ -270,7 +270,11 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/content/changeEditor")
-    public ModelAndView adminEditArticleMarkdon(HttpServletResponse response, HttpServletRequest request, @RequestParam("id") String id, @RequestParam(value = "editor") String editor, @RequestParam(value = "changeEditor") String changeEditor){
+    public ModelAndView adminEditArticleMarkdon(HttpServletResponse response, HttpServletRequest request,
+                                                @RequestParam("id") String id,
+                                                @RequestParam(value = "editor") String editor,
+                                                @RequestParam(value = "changeEditor") String changeEditor,
+                                                @RequestParam(value = "articleid",required = false) String articleid){
         ModelAndView view = new ModelAndView("content/edit_content");
 
         view.addObject("CPATH", Utils.getServerPath(request));
@@ -297,6 +301,13 @@ public class ArticleController {
         module.setTaxonomyTypes(taxonomyTypes);
         view.addObject("module", module);
         view.addObject("urlSuffix", "标题");
+
+        if(articleid != null && articleid.length() > 0){
+            Article article = articleService.selectByPrimaryKey(Integer.valueOf(articleid));
+            article.setArticleTags(taxonomyService.getTagsByArticleId(Integer.valueOf(articleid)));
+            article.setCategories(taxonomyService.getCategoriesByArticleId(Integer.valueOf(articleid)));
+            view.addObject("article", article);
+        }
 
         view.addObject("topLevelId", id);
         view.addObject("edit", true);

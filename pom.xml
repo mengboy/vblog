@@ -211,7 +211,7 @@
 
   </dependencies>
   <build>
-    <finalName>swjtubd</finalName>
+    <finalName>vblog</finalName>
     <!--<finalName>maven01</finalName>-->
     <plugins>
       <plugin>

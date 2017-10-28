@@ -57,24 +57,24 @@
 
 
     <!--JavaMail 相关配置-->
-    <bean id="mailSender"
-          class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${host}"/>
-        <property name="username" value="${from}"/>
-        <property name="password" value="${emailpass}"/>
-        <property name="protocol" value="${protocol}"/>
-        <property name="defaultEncoding" value="${encoding}"/>
-        <property name="port" value="465"/>
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.from">15680780793@163.com</prop>
-                <prop key="mail.debug">true</prop>
-                <!--<prop key="mail.transport.protocol">smtp</prop>-->
-                <prop key="mail.smtp.ssl.enable">true</prop>
-            </props>
-        </property>
-    </bean>
+    <!--<bean id="mailSender"-->
+          <!--class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
+        <!--<property name="host" value="${host}"/>-->
+        <!--<property name="username" value="${from}"/>-->
+        <!--<property name="password" value="${emailpass}"/>-->
+        <!--<property name="protocol" value="${protocol}"/>-->
+        <!--<property name="defaultEncoding" value="${encoding}"/>-->
+        <!--<property name="port" value="465"/>-->
+        <!--<property name="javaMailProperties">-->
+            <!--<props>-->
+                <!--<prop key="mail.smtp.auth">true</prop>-->
+                <!--<prop key="mail.smtp.from">15680780793@163.com</prop>-->
+                <!--<prop key="mail.debug">true</prop>-->
+                <!--&lt;!&ndash;<prop key="mail.transport.protocol">smtp</prop>&ndash;&gt;-->
+                <!--<prop key="mail.smtp.ssl.enable">true</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <!--<bean id="mail" class="com.white.ssm.mail.SendEmailServiceService"></bean>-->
 
@@ -105,12 +105,19 @@
                 <value>/plugins/fancybox/</value>
             </list>
         </property>
+
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="defaultEncoding">UTF-8</prop>
+            </props>
+        </property>
+
     </bean>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="prefix" value=""/>
         <property name="suffix" value=".ftl"/>
-        <property name="contentType" value="text/html; charset=UTF-8"/>
+        <property name="contentType" value="text/html"/>
     </bean>
 
     <!-- 访问"/getUserName"时服务器发现找不到/WEB-INF/ftl/username.ftl，于是它就到这里来找了，结果自然是找到了 -->
